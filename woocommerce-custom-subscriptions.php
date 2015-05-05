@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WooCommerce Custom Subscription
+ * Plugin Name: WooCommerce Custom Subscriptions
  * Description: Extends WooCommerce Subscriptions Plugin to add support for user customizable subscriptions.
  * Author: Nick Maraston
  * Version: 1.0
@@ -15,12 +15,12 @@
 
 if ( ! class_exists('WC_Custom_Subscriptions') ) :
 
-final class WooCommerce_Custom_Subscriptions {
+final class WC_Custom_Subscriptions {
 
 	public static $puglin_file = __FILE__;
 
 	/**
-	 *
+	 * @var Version of plugin
 	 */
 	public static $version = "1.0.0";
 
@@ -35,14 +35,14 @@ final class WooCommerce_Custom_Subscriptions {
 	 *
 	 * Ensures only one instance of WC_Custom_Subscription is loaded or can be loaded.
 	 *
-	 * @since 1.0
 	 * @static
 	 * @see WCCS()
 	 * @return WC_Custom_Subscriptions - main instance
+	 * @since 1.0
 	 */
 	public static function instance() {
-		if ( is_null( sell::$_instance ) ) {
-			self:$_instance = new self();
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
 		}
 		return self::$_instance;
 	}
@@ -72,14 +72,14 @@ final class WooCommerce_Custom_Subscriptions {
 	}
 
 	/**
-	 * Include required core files used in admin and on the frontend.
+	 * Includes required core files used in admin and on the frontend.
 	 */
 	public function includes() {
 
 	}
 
 	/**
-	 * Hook into actionss and filters
+	 * Hook into actions and filters.
 	 * @since 1.0
 	 */
 	public function init_hooks() {
@@ -87,11 +87,11 @@ final class WooCommerce_Custom_Subscriptions {
 	}
 
 	/**
-	 * Get the plugin path
-	 * @return string
+	 * @return the absolute path on host to the plugin directory.
+	 * @since 1.0
 	 */ 
 	public function plugin_path() {
-		return untrailingsslashit( plugin_dir_path( __FILE__ ) );
+		return plugin_dir_path( $puglin_file );
 	}
 }
 
@@ -101,7 +101,7 @@ endif;
  * Returns the main instance of WC_Custom_Subscriptions to prevent the need to use globals.
  *
  * @since 1.0
- * @return WC_Custom_Subscriptions
+ * @return WC_Custom_Subscriptions - main instance.
  */
 function WCCS() {
 	return WC_Custom_Subscriptions::instance();
