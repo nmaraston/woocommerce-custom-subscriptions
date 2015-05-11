@@ -19,7 +19,7 @@
  	public static function install() {
  		WCCS_Logger()->info( "Attempting plugin installation.", __CLASS__ );
  		self::install_wp_term_dependencies();
- 		$logger->info( "Successful plugin installation.", __CLASS__ );
+ 		WCCS_Logger()->info( "Successful plugin installation.", __CLASS__ );
  	}
 
  	/**
