@@ -17,12 +17,12 @@ if ( ! class_exists('WC_Custom_Subscriptions') ) :
 
 final class WC_Custom_Subscriptions {
 
-	private static $plugin_file = __FILE__;
-
 	/**
 	 * @var Version of plugin
 	 */
 	public static $version = "1.0.0";
+
+	private static $plugin_file = __FILE__;
 
 	/**
 	 * @var The single instance of WooCommerce_Custom_Subscriptions class
@@ -81,10 +81,7 @@ final class WC_Custom_Subscriptions {
 	 */
 	public function init_plugin() {
 		$this->includes();
-
-		// Set shortform plugin name for logging
-		WCCS_Logger()->set_plugin_name( 'WCCS' );
-
+		$this->init_logger();
 		$this->init_hooks();
 	}
 
@@ -93,7 +90,7 @@ final class WC_Custom_Subscriptions {
 	 *
 	 * @since 1.0
 	 */
-	public function includes() {
+	private function includes() {
 		include_once( 'includes/util/class-wccs-logger.php' );
 		include_once( 'includes/class-wccs-product-custom-subscription-helper.php' );
 		include_once( 'includes/class-wccs-installer.php' );
@@ -101,11 +98,24 @@ final class WC_Custom_Subscriptions {
 	}
 
 	/**
+	 * Initliaze the plugin specific logger.
+	 *
+	 * @since 1.0
+	 */
+	private function init_logger() {
+
+		// Set shortform plugin name for logging
+		WCCS_Logger()->set_plugin_name( 'WCCS' );
+		WCCS_Logger()->info( "Logger initialized.", __CLASS__ );
+	}
+
+	/**
 	 * Hook into actions and filters.
 	 * 
 	 * @since 1.0
 	 */
-	public function init_hooks() {
+	private function init_hooks() {
+		WCCS_Logger()->info( "Initializing hooks (actions/filters).", __CLASS__ );
 
 		// Wire plugin activation hooks
 		WCCS_Hook_Configuration()->wire_activation_hooks( __FILE__ );
