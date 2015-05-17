@@ -115,7 +115,7 @@ final class WC_Custom_Subscriptions {
 	 * @since 1.0
 	 */
 	private function init_hooks() {
-		WCCS_Logger()->info( "Initializaing hooks (actions/filters).", __CLASS__ );
+		WCCS_Logger()->info( "Initializing hooks (actions/filters).", __CLASS__ );
 
 		// Wire plugin activation hooks
 		WCCS_Hook_Configuration()->wire_activation_hooks( __FILE__ );
