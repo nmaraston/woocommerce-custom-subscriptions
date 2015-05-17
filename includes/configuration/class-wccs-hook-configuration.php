@@ -67,6 +67,7 @@ class WCCS_Hook_Configuration {
 	 * @since 1.0
 	 */
 	public function wire_activation_hooks( $plugin_file_path ) {
+		WCCS_Logger()->info( "Wireing activiation and deactivation hooks.", __CLASS__ );
 
 		// Trigger install logic on plugin activation
 		register_activation_hook( $plugin_file_path, 'WCCS_Installer::install' );
@@ -83,6 +84,7 @@ class WCCS_Hook_Configuration {
 	 * @since 1.0
 	 */
 	public function wire_action_hooks() {
+		WCCS_Logger()->info( "Wireing action hooks.", __CLASS__ );
 
 		/********************************************************
 		 * Init Wordpress core action hooks.
@@ -100,6 +102,7 @@ class WCCS_Hook_Configuration {
 	 * @since 1.0
 	 */
 	public function wire_filter_hooks() {
+		WCCS_Logger()->info( "Wireing filter hooks.", __CLASS__ );
 
 		/********************************************************
 		 * Init WooCommerce Plugin filter hooks.
