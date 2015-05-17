@@ -165,25 +165,25 @@ class WCCS_Hook_Configuration {
 	 * @param int    $argument_count - number of arguments the function accepts
 	 */
 	private function wire_hook( $hook_type, $hook_name, $classname, $fn_handler, $priority=10, $argument_count=1 ) {
-		if ( $hook_type === self::$ACTIVIATION_HOOK_TYPE )
-		{
-			$this->log_hook_wire( $hook_type, $hook_name, $classname, $fn_handler );
-			register_activation_hook( $hook_name, $classname . '::' . $fn_handler );
-		}
-		elseif ( $hook_type === self::$DEACTIVIATION_HOOK_TYPE )
-		{
-			$this->log_hook_wire( $hook_type, $hook_name, $classname, $fn_handler );
-			register_deactivation_hook( $hook_name, $classname . '::' . $fn_handler );
-		}
-		elseif ( $hook_type === self::$ACTION_HOOK_TYPE )
-		{
-			$this->log_hook_wire( $hook_type, $hook_name, $classname, $fn_handler, $priority, $argument_count );
-			add_action( $hook_name, $classname . '::' . $fn_handler, $priority, $argument_count );
-		}
-		else
-		{
-			$this->log_hook_wire( $hook_type, $hook_name, $classname, $fn_handler, $priority, $argument_count );
-			add_filter( $hook_name, $classname . '::' . $fn_handler, $priority, $argument_count );
+		switch ( $hook_type ) {
+			case self::$ACTIVIATION_HOOK_TYPE:
+				$this->log_hook_wire( $hook_type, $hook_name, $classname, $fn_handler );
+				register_activation_hook( $hook_name, $classname . '::' . $fn_handler );
+				break;
+			case self::$DEACTIVIATION_HOOK_TYPE:
+				$this->log_hook_wire( $hook_type, $hook_name, $classname, $fn_handler );
+				register_deactivation_hook( $hook_name, $classname . '::' . $fn_handler );
+				break;
+			case self::$ACTION_HOOK_TYPE:
+				$this->log_hook_wire( $hook_type, $hook_name, $classname, $fn_handler, $priority, $argument_count );
+				add_action( $hook_name, $classname . '::' . $fn_handler, $priority, $argument_count );
+				break;
+			case self::$FILTER_HOOK_TYPE:
+				$this->log_hook_wire( $hook_type, $hook_name, $classname, $fn_handler, $priority, $argument_count );
+				add_filter( $hook_name, $classname . '::' . $fn_handler, $priority, $argument_count );
+				break;
+			default:
+				WCCS_Logger()->warn( "Unable to wire hook for unknown hook type: " . $hook_type );
 		}
 	}
 
