@@ -17,12 +17,12 @@ if ( ! class_exists('WC_Custom_Subscriptions') ) :
 
 final class WC_Custom_Subscriptions {
 
-	private static $plugin_file = __FILE__;
-
 	/**
 	 * @var Version of plugin
 	 */
 	public static $version = "1.0.0";
+
+	private static $plugin_file = __FILE__;
 
 	/**
 	 * @var The single instance of WooCommerce_Custom_Subscriptions class
