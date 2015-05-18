@@ -82,7 +82,6 @@ class WCCS_Hook_Configuration {
 		$this->wire_hook( self::$ACTIVIATION_HOOK_TYPE,
 			$plugin_file_path, 'WCCS_Installer', 'install' );
 
-
 		// Trigger uninstall logic on plugin deactivation
 		$this->wire_hook( self::$DEACTIVIATION_HOOK_TYPE,
 			$plugin_file_path, 'WCCS_Installer', 'uninstall' );
@@ -111,6 +110,25 @@ class WCCS_Hook_Configuration {
 			'plugins_loaded',
 			'WCCS_Product_Custom_Subscription_Helper', 'ah_plugins_loaded', 999, 0 );
 
+		// Called via Wordpress whenever a post or page is created or updated.
+		$this->wire_hook( self::$ACTION_HOOK_TYPE,
+			'save_post',
+			'WCCS_Product_Custom_Subscription_Helper', 'ah_save_post', 10, 1 );
+
+		// Called via Wordpress to enqeue additional assets for admin pages.
+		$this->wire_hook( self::$ACTION_HOOK_TYPE,
+			'admin_enqueue_scripts',
+			'WCCS_Asset_Loader', 'ah_admin_enqueue_scripts', 10, 0 );
+
+		/*******************************************************
+		 * Init WooCommerce Subscriptions Plugin action hooks.
+		 *******************************************************/
+
+		// Called via WooCommerce Subscriptions when displaying add/edit product form fields for subscription products.
+		$this->wire_hook( self::$ACTION_HOOK_TYPE,
+			'woocommerce_subscriptions_product_options_pricing',
+			'WCCS_Product_Custom_Subscription_helper', 'ah_woocommerce_subscriptions_product_options_pricing', 10, 0 );
+
 		WCCS_Logger()->info( "-----------------------------------------", __CLASS__ );
 	}
 
@@ -132,6 +150,11 @@ class WCCS_Hook_Configuration {
 		$this->wire_hook( self::$FILTER_HOOK_TYPE,
 			'woocommerce_product_class',
 			'WCCS_Product_Custom_Subscription_Helper', 'fh_woocommerce_product_class', 10, 4 );
+
+		// Called via WooCommerce when resolving a product type list for selection in the "Add Product" page.
+		$this->wire_hook( self::$FILTER_HOOK_TYPE,
+			'product_type_selector',
+			'WCCS_Product_Custom_Subscription_Helper', 'fh_product_type_selector', 10, 1 );
 
 		/*******************************************************
 		 * Init WooCommerce Subscription Plugin filter hooks.
