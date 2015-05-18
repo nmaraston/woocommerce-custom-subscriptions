@@ -22,7 +22,7 @@ final class WC_Custom_Subscriptions {
 	 */
 	public static $version = "1.0.0";
 
-	private static $plugin_file = __FILE__;
+	public static $plugin_file = __FILE__;
 
 	/**
 	 * @var The single instance of WooCommerce_Custom_Subscriptions class
@@ -95,6 +95,7 @@ final class WC_Custom_Subscriptions {
 		include_once( 'includes/class-wccs-product-custom-subscription-helper.php' );
 		include_once( 'includes/class-wccs-installer.php' );
 		include_once( 'includes/configuration/class-wccs-hook-configuration.php' );
+		include_once( 'includes/configuration/class-wccs-asset-loader.php' );
 	}
 
 	/**
