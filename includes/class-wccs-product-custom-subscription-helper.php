@@ -15,7 +15,11 @@
  */
 class WCCS_Product_Custom_Subscription_Helper {
 
-	public static $PRODUCT_TYPE_NAME = "custom subscription";
+	public static $PRODUCT_TYPE_NAME = 'custom subscription';
+	public static $PRODUCT_COUNT_META_KEY = '_custom_subscription_product_count';
+
+	private static $UI_PRODUCT_NAME = "Custom Subscription";
+	private static $PRODUCT_SLOT_COUNT_OPTION_LIMIT = 10;
 
 	/**
 	 * The WooCommerce Subscriptions plugin loads it's added (WC_Product_Subscription) product classes on
@@ -27,6 +31,49 @@ class WCCS_Product_Custom_Subscription_Helper {
 	 */
 	public static function ah_plugins_loaded() {
 		include_once( WCCS()->plugin_path() . 'includes/class-wccs-product-custom-subscription.php' );
+	}
+
+	/**
+	 * Action handler for saving a post. If a "Custom Subscription" product type post is being saved, this handler
+	 * reads the product count selection input and persists it as post metadata.
+	 *
+	 * @since 1.0
+	 */
+	public static function ah_save_post( $post_id ) {
+		if ( ! isset( $_POST['product-type'] ) || ! $_POST['product-type'] == self::$PRODUCT_TYPE_NAME ) {
+			return;
+		}
+		$custom_subscription_product_count = intval(  $_REQUEST[ self::$PRODUCT_COUNT_META_KEY ] );
+		update_post_meta( $post_id, self::$PRODUCT_COUNT_META_KEY, $custom_subscription_product_count );
+	}
+
+	/**
+	 * The WooCommerce Subscriptions plugin invokes action 'woocommerce_subscriptions_product_options_pricing'
+	 * when displaying the editiable product data form. Here we add a drop down selection to modify the
+	 * product count for a Custom Subscription.
+	 *
+	 * @since 1.0
+	 */
+	public static function ah_woocommerce_subscriptions_product_options_pricing() {
+		global $post;
+		$product = get_product( $post->ID );
+
+		if ( $product->is_type( array( self::$PRODUCT_TYPE_NAME ) ) ) {
+
+			$product_slot_count_options = array();
+			for ( $n = 1; $n <= self::$PRODUCT_SLOT_COUNT_OPTION_LIMIT; $n++ ) {
+				$product_slot_count_options[ $n ] = strval( $n );
+			}
+
+			// Display Custom Subscription Product Count select drop down
+			woocommerce_wp_select( array(
+				'id'          => self::$PRODUCT_COUNT_META_KEY,
+				'class'       => 'wc_input_custom_subscription_product_count',
+				'label'       => 'Product Count',
+				'options'     => $product_slot_count_options
+				)
+			);
+		}
 	}
 
 	/**
@@ -48,7 +95,7 @@ class WCCS_Product_Custom_Subscription_Helper {
 	 */
 	public static function fh_woocommerce_product_class( $classname, $product_type, $post_type, $product_id ) {
 		if ( $product_type == self::$PRODUCT_TYPE_NAME ) {
-			$classname = __CLASS__;
+			$classname = 'WC_Product_Custom_Subscription';
 		}
 		return $classname;
 	}
@@ -59,16 +106,16 @@ class WCCS_Product_Custom_Subscription_Helper {
 	 *
 	 * @since 1.0
 	 */
-	public static function fh_woocommerce_subscription_product_types() {
+	public static function fh_woocommerce_subscription_product_types( $product_types ) {
 		array_push( $product_types, self::$PRODUCT_TYPE_NAME );
 		return $product_types;
 	}
 
 	/**
-	 * WooCommerce Subscription applys filter "woocommerce_is_subscription" when it is is checking if a WC Product is of
+	 * WooCommerce Subscription applys filter "woocommerce_is_subscription" when it is checking if a WC Product is of
 	 * some Subscription product type. WooCommerce Subscriptions only checks against it's provided subscription product 
 	 * types.
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public static function fh_woocommerce_is_subscription( $product_id ) {
@@ -78,5 +125,21 @@ class WCCS_Product_Custom_Subscription_Helper {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Woocommerce applies filter "product_type_selector" when it resolves a complete list of product types to display
+	 * in the "Add Product" page selector. Here we add selection for "Custom Subscription" product creation.
+	 *
+	 * See http://docs.woothemes.com/wc-apidocs/source-class-WC_Meta_Box_Product_Data.html#33
+	 *
+	 * @since 1.0
+	 */
+	public static function fh_product_type_selector( $product_types ) {
+		// For some reason WooCommerce applies sanitize_title() to the product_type term associated with the product when
+		// creating the select markup. Therefore, we must also apply sanitize_title() to our added product type name so
+		// WooCommerce can properly resolve it.
+		$product_types[ sanitize_title( self::$PRODUCT_TYPE_NAME ) ] = self::$UI_PRODUCT_NAME;
+		return $product_types;
 	}
 }
