@@ -13,6 +13,8 @@
  */
 class WC_Product_Custom_Subscription extends WC_Product_Subscription {
 
+	public $custom_subscription_product_count;
+
 	/**
 	 * Constructor for WC_Product_Custom_Subscription
 	 *
@@ -20,6 +22,14 @@ class WC_Product_Custom_Subscription extends WC_Product_Subscription {
 	 */
 	public function __construct( $product ) {
 		parent::__construct( $product );
-		$this->product_type = WCCS_Product_Custom_Subscription_Helper::PRODUCT_TYPE_NAME;
+		$this->product_type = WCCS_Product_Custom_Subscription_Helper::$PRODUCT_TYPE_NAME;
+
+		// Load all meta fields
+		$this->product_custom_fields = get_post_meta( $this->id );
+
+		// Load product count meta field
+		if ( ! empty( $this->product_custom_fields[WCCS_Product_Custom_Subscription_Helper::$PRODUCT_COUNT_META_KEY][0] ) ) {
+			$custom_subscription_product_count = $this->product_custom_fields[WCCS_Product_Custom_Subscription_Helper::$PRODUCT_COUNT_META_KEY][0];
+		}
 	}
 }
