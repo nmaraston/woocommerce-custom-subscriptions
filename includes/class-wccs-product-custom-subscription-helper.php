@@ -77,6 +77,20 @@ class WCCS_Product_Custom_Subscription_Helper {
 	}
 
 	/**
+	 * Called via WooCommerce when a product has been added to the cart. This
+	 * action is handled by checking if the given $product_id identifies a
+	 * Custom Subscription. If so, we trigger the WCCS_UISM_Manager to
+	 * instantiate a UISM for the user.
+	 * @since 1.0
+	 */
+	public static function ah_woocommerce_add_to_cart($cart_item_key, $product_id, $quantity,
+		$variation_id, $variation, $cart_item_data) {
+		if ( self::is_custom_subscription( $product_id ) ) {
+			WCCS_UISM_Manager::uism_sign_up( get_current_user_id(), $product_id );
+		}
+	}
+
+	/**
 	 * WooCommerce assumes a certain class name format for WooCommerce product types. This assumed format 
 	 * is used when looking up a WC product via WC_Product_Factory. 
 	 * 
@@ -118,13 +132,8 @@ class WCCS_Product_Custom_Subscription_Helper {
 	 *
 	 * @since 1.0
 	 */
-	public static function fh_woocommerce_is_subscription( $product_id ) {
-		$subscription_product_types = array( 'subscription', 'subscription_variation', 'variable-subscription', self::$PRODUCT_TYPE_NAME );
-		$product = get_product( $product_id );
-		if ( $product->is_type( $subscription_product_types ) ) {
-			return true;
-		}
-		return false;
+	public static function fh_woocommerce_is_subscription( $is_subscription, $product_id ) {
+		return ( $is_subscription || self::is_custom_subscription( $product_id ) );
 	}
 
 	/**
@@ -141,5 +150,23 @@ class WCCS_Product_Custom_Subscription_Helper {
 		// WooCommerce can properly resolve it.
 		$product_types[ sanitize_title( self::$PRODUCT_TYPE_NAME ) ] = self::$UI_PRODUCT_NAME;
 		return $product_types;
+	}
+
+	/**
+	 * Return true iff the given $product_id is a WC product identifier for a Custom Subscription product type.
+	 *
+	 * @param int $product_id
+	 * @since 1.0
+	 */
+	public static function is_custom_subscription( $product_id ) {
+		$post_type = get_post_type( $product_id );
+		if ( in_array( $post_type, array( 'product', 'product_variation' ) ) ) {
+			$product = get_product( $product_id );
+			if ( $product->is_type( array( self::$PRODUCT_TYPE_NAME ) ) ) {
+				return true;
+			}
+
+		}
+		return false;
 	}
 }
