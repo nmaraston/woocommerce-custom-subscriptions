@@ -93,6 +93,8 @@ final class WC_Custom_Subscriptions {
 	private function includes() {
 		include_once( 'includes/util/class-wccs-logger.php' );
 		include_once( 'includes/class-wccs-product-custom-subscription-helper.php' );
+		include_once( 'includes/class-wccs-uism-state.php' );
+		include_once( 'includes/class-wccs-uism-dao.php' );
 		include_once( 'includes/class-wccs-installer.php' );
 		include_once( 'includes/configuration/class-wccs-hook-configuration.php' );
 		include_once( 'includes/configuration/class-wccs-asset-loader.php' );
