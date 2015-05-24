@@ -121,16 +121,28 @@ class WCCS_Hook_Configuration {
 			'WCCS_Asset_Loader', 'ah_admin_enqueue_scripts', 10, 0 );
 
 		/*******************************************************
+		 * Init WooCommerce Plugin action hooks.
+		 *******************************************************/
+
+		// Called via WooCommerce when an item is added to the cart.
+		$this->wire_hook( self::$ACTION_HOOK_TYPE,
+			'woocommerce_add_to_cart',
+			'WCCS_Product_Custom_Subscription_Helper', 'ah_woocommerce_add_to_cart', 10, 6 );
+
+		/*******************************************************
 		 * Init WooCommerce Subscriptions Plugin action hooks.
 		 *******************************************************/
 
 		// Called via WooCommerce Subscriptions when displaying add/edit product form fields for subscription products.
 		$this->wire_hook( self::$ACTION_HOOK_TYPE,
 			'woocommerce_subscriptions_product_options_pricing',
-			'WCCS_Product_Custom_Subscription_helper', 'ah_woocommerce_subscriptions_product_options_pricing', 10, 0 );
+			'WCCS_Product_Custom_Subscription_Helper', 'ah_woocommerce_subscriptions_product_options_pricing', 10, 0 );
+
 
 		WCCS_Logger()->info( "-----------------------------------------", __CLASS__ );
 	}
+
+
 
 	/**
 	 * Wire ALL Wordpress Filters used throughout the plugin.
@@ -168,7 +180,7 @@ class WCCS_Hook_Configuration {
 		// Called when WooCommerce Subscriptions is checking if a WC Product is of some Subscription product type.
 		$this->wire_hook( self::$FILTER_HOOK_TYPE,
 			'woocommerce_is_subscription',
-			'WCCS_Product_Custom_Subscription_Helper', 'fh_woocommerce_is_subscription', 10, 1 );
+			'WCCS_Product_Custom_Subscription_Helper', 'fh_woocommerce_is_subscription', 10, 2 );
 
 		WCCS_Logger()->info( "-----------------------------------------", __CLASS__ );
 	}
@@ -206,7 +218,7 @@ class WCCS_Hook_Configuration {
 				add_filter( $hook_name, $classname . '::' . $fn_handler, $priority, $argument_count );
 				break;
 			default:
-				WCCS_Logger()->warn( "Unable to wire hook for unknown hook type: " . $hook_type );
+				WCCS_Logger()->warn( "Unable to wire hook for unknown hook type: " . $hook_type, __CLASS__ );
 		}
 	}
 
