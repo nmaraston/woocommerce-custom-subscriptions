@@ -151,7 +151,7 @@ class WCCS_UISM_Dao {
 	 */
 	private function is_valid_slot( $slot ) {
 		$product_count = $this->get_product_count();
-		if ( is_int( $slot ) && $slot > 0 && $slot <= $product_count ) {
+		if ( is_int( $slot ) && $slot >= 0 && $slot < $product_count ) {
 			return true;
 		}
 		return false;
@@ -164,11 +164,23 @@ class WCCS_UISM_Dao {
 	 * @since 1.0
 	 */
 	public function save() {
-		if ( $this->save_uism() ) { 
+		if ( $this->save_uism() ) {
+			// If this is a new UISM, we need to load the id field to properly
+			// save the products.
+			if ( is_null( $this->id ) ) {
+				global $wpdb;
+				$selectors = array(
+					"user_id" => $this->user_id,
+					"product_id" => $this->base_product->id
+				);
+				$uism_row = $wpdb->get_row( self::build_get_uism_query( $selectors ), OBJECT );
+				$this->set_id( $uism_row->id );
+			}
 			$this->save_products();
 		} else {
 			return false;
 		}
+
 		return true;
 	}
 
@@ -179,9 +191,7 @@ class WCCS_UISM_Dao {
 	 * @since 1.0
 	 */
 	private function save_uism() {
-		if ( is_null( $this->user_id ) 
-		  || is_null( $this->base_product ) 
-		  || is_null( $this->state ) ) {
+		if ( ! $this->can_save() ) {
 			// UISM is in invalid state for saving
 			return false;
 		}
@@ -213,12 +223,12 @@ class WCCS_UISM_Dao {
 
 		global $wpdb;
 
-		foreach ( $this->products as $slot_number => $product ) {
+		foreach ( $this->products as $slot => $product ) {
 			$wpdb->replace(
 				self::get_uism_products_table_name(),
 				array(
 						"uism_id"     => $this->id,
-						"slot_number" => $slot_number,
+						"slot_number" => $slot,
 						"product_id"  => $product->id
 					),
 				array(
@@ -228,6 +238,19 @@ class WCCS_UISM_Dao {
 				)
 			);
 		}
+	}
+
+	/**
+	 * Return true iff the UISM is in a valid state for saving. A UISM is valid
+	 * for saving if the following properties are non-null: $user_id,
+	 * $base_products, $state.
+	 * @return bool
+	 * @since 1.0
+	 */
+	public function can_save() {
+		return ! ( is_null( $this->user_id ) &&
+			       is_null( $this->base_product ) &&
+			       is_null( $this->state ) );
 	}
 
 	/**
