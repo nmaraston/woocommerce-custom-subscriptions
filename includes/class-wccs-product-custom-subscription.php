@@ -17,7 +17,6 @@ class WC_Product_Custom_Subscription extends WC_Product_Subscription {
 
 	/**
 	 * Constructor for WC_Product_Custom_Subscription
-	 *
 	 * @param mixed $product
 	 */
 	public function __construct( $product ) {
@@ -34,7 +33,8 @@ class WC_Product_Custom_Subscription extends WC_Product_Subscription {
 	}
 
 	/**
-	 *
+	 * Get the product count of this Custom Subscription product. The product count is the total
+	 * number of customizable products in this subscription.
 	 * @since 1.0
 	 */
 	public function get_product_count() {
