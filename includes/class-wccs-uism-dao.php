@@ -79,16 +79,12 @@ class WCCS_UISM_Dao {
 	}
 
 	/**
-	 * Get the UISM product at the given $slot number. Returns NULL if the
-	 * $slot number is invalid (out of bounds).
-	 * @return WC_Product
+	 * Get the UISM products.
+	 * @return array( WC_Product )
 	 * @since 1.0
 	 */
-	public function get_product_at_slot( $slot ) {
-		if ( is_valid_slot( $slot ) ) {
-			return $this->products[ $slot ];
-		}
-		return NULL;
+	public function get_products() {
+		return $this->products;
 	}
 
 	/**
@@ -313,8 +309,9 @@ class WCCS_UISM_Dao {
 		$has_id = in_array( "id", $key );
 		$has_user_id = in_array( "user_id", $key );
 		$has_product_id = in_array( "product_id", $key );
+		$has_state = in_array( "state", $key );
 
-		return ( $has_id || ( $has_user_id && $has_product_id ) );
+		return ( $has_id || ( $has_user_id && $has_product_id ) || ( $has_user_id && $has_state) );
 	}
 
 	/**
@@ -345,7 +342,15 @@ class WCCS_UISM_Dao {
 			$query .= " WHERE";
 			$index = 0;
 			foreach ( $selectors as $column => $value ) {
-				$query .= " " . $column . " = " . $value;
+				$query .= " " . $column . " = ";
+
+				// Output quotes if the column date type is a string.
+				if ( $column === "state" ) {
+					$query .= "'" . $value . "'";
+				} else {
+					$query .= $value;
+				}
+
 				if ( $index != $selector_count - 1 ) {
 					$query .= " AND";
 				}
@@ -384,7 +389,7 @@ class WCCS_UISM_Dao {
 	 * The UISM table stores UISMs. Each row in the table represents a user
 	 * instantiated custom suscription.
 	 *
-	 * Table keys: (id), (user_id, product_id)
+	 * Table keys: (id), (user_id, product_id), (user_id, state)
 	 * @return string
 	 * @since 1.0
 	 */
@@ -400,8 +405,9 @@ class WCCS_UISM_Dao {
 				user_id BIGINT(20) UNSIGNED NOT NULL,
 				product_id BIGINT(20) UNSIGNED NOT NULL,
 				state ENUM('ACTIVE_NONBILLING', 'ACTIVE_BILLING', 'INACTIVE'),
-				PRIMARY KEY  (id),
-				UNIQUE KEY  user_product (user_id, product_id)
+				PRIMARY KEY (id),
+				UNIQUE KEY user_product (user_id, product_id),
+				UNIQUE KEY user_state (user_id, state)
 			) $charset_collate;
 			";
 
@@ -429,7 +435,7 @@ class WCCS_UISM_Dao {
 				uism_id BIGINT(20) UNSIGNED NOT NULL,
 				slot_number TINYINT(8) UNSIGNED NOT NULL,
 				product_id BIGINT(20) UNSIGNED NOT NULL,
-				UNIQUE KEY  uism_slot (uism_id, slot_number)
+				UNIQUE KEY  uism_slot  (uism_id, slot_number)
 			) $charset_collate;
 			";
 
