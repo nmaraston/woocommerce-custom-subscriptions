@@ -83,6 +83,7 @@ final class WC_Custom_Subscriptions {
 		$this->includes();
 		$this->init_logger();
 		$this->init_hooks();
+		$this->init_shortcodes();
 	}
 
 	/**
@@ -101,6 +102,9 @@ final class WC_Custom_Subscriptions {
 		include_once( 'includes/class-wccs-installer.php' );
 		include_once( 'includes/configuration/class-wccs-hook-configuration.php' );
 		include_once( 'includes/configuration/class-wccs-asset-loader.php' );
+		include_once( 'includes/shortcode/class-wccs-shortcode-config.php' );
+		include_once( 'includes/shortcode/class-wccs-i-shortcode.php' );
+		include_once( 'includes/shortcode/class-wccs-manage-subscription-shortcode.php' );
 	}
 
 	/**
@@ -109,7 +113,6 @@ final class WC_Custom_Subscriptions {
 	 * @since 1.0
 	 */
 	private function init_logger() {
-
 		// Set shortform plugin name for logging
 		WCCS_Logger()->set_plugin_name( 'WCCS' );
 		WCCS_Logger()->info( "Logger initialized.", __CLASS__ );
@@ -131,6 +134,14 @@ final class WC_Custom_Subscriptions {
 
 		// Wire all filters for the plugin
 		WCCS_Hook_Configuration()->wire_filter_hooks();
+	}
+
+	/**
+	 * Initialize the shortcodes used in the plugin.
+	 * @since 1.0
+	 */
+	private function init_shortcodes() {
+		WCCS_Shortcode_Config::init_shortcodes();
 	}
 
 	/**

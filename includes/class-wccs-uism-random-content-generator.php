@@ -14,6 +14,7 @@ class WCCS_UISM_Random_Content_Generator implements WCCS_UISM_I_Content_Generato
 	/**
 	 * Generates product contents randomly. WC_Subscripton products are 
 	 * excluded. Returns false if no other product types exist in the catalog.
+	 *
 	 * @since 1.0
 	 */
 	public function generate_products( $user_id, $product_id ) {
