@@ -26,6 +26,7 @@ interface WCCS_UISM_I_Content_Generator {
 	 * Examples of product generators could:
 	 *	   - Randomly generate products
 	 *     - Generate products based on user preferences
+	 *
 	 * @param int $user_id
 	 * @param int $product_id
 	 * @return array ( WC_Product )
