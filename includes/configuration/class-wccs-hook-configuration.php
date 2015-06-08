@@ -155,6 +155,15 @@ class WCCS_Hook_Configuration {
 		WCCS_Logger()->info( "Wiring filter hooks:", __CLASS__ );
 
 		/*******************************************************
+		 * Init Wordpress core filter hooks.
+		 *******************************************************/
+
+		// Called via Wordpress before the predetermined template file is included.
+		$this->wire_hook( self::$FILTER_HOOK_TYPE,
+			'template_include',
+			'WCCS_Template_Loader', 'fh_template_include', 10, 1 );
+
+		/*******************************************************
 		 * Init WooCommerce Plugin filter hooks.
 		 *******************************************************/
 

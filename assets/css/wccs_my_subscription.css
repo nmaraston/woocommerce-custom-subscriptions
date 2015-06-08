@@ -1,0 +1,29 @@
+/**
+ * These styles are applied to the "my subscription" UI page.
+ */
+
+.subscription-status-message {
+	text-align: center;
+}
+
+.subscription-status-message .custom-subscription-state-active {
+	color: green;
+}
+
+.subscription-status-message .custom-subscription-state-inactive {
+	color: red;
+}
+
+.subscription-status-message a {
+	text-decoration: underline;
+}
+
+.my-subscription-checkout-footer {
+	float: right;
+}
+
+.my-subscription-checkout-footer .my-subscription-checkout-btn, 
+.my-subscription-checkout-footer .my-subscription-start-msg {
+	float: right;
+	margin-right: 30pt;
+}
