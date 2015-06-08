@@ -2,9 +2,9 @@
 /**
  * Helper class for Custom Subscription Product Class.
  *
- * Includes hooks/data related to Custom Subscription Product Class that can not be
- * invoked in the Product class due to how WooCommerceSubscriptions product classes 
- * are loaded.
+ * Includes hooks/data related to Custom Subscription Product Class that can not
+ * be invoked in the Product class due to how WooCommerceSubscriptions product
+ * classes are loaded.
  *
  * @class       WC_Product_Custom_Subscription_Helper
  * @package     WooCommerceCustomSubscriptions
@@ -22,10 +22,12 @@ class WCCS_Product_Custom_Subscription_Helper {
 	private static $PRODUCT_SLOT_COUNT_OPTION_LIMIT = 10;
 
 	/**
-	 * The WooCommerce Subscriptions plugin loads it's added (WC_Product_Subscription) product classes on
-	 * the 'plugins-loaded' action. Since the WC_Product_Custom_Subscription class extends the WC_Product_Subscription
-	 * class, we need to wait for WooCommerce Subscriptions to load WC_Product_Subscription first. Then load
-	 * the WC_Product_Custom_subscription class here.
+	 * The WooCommerce Subscriptions plugin loads it's added
+	 * (WC_Product_Subscription) product classes on the 'plugins-loaded' action.
+	 * Since the WC_Product_Custom_Subscription class extends the 
+	 * WC_Product_Subscription class, we need to wait for WooCommerce
+	 * Subscriptions to load WC_Product_Subscription first. Then load the
+	 * WC_Product_Custom_subscription class here.
 	 *
 	 * @since 1.0
 	 */
@@ -34,8 +36,9 @@ class WCCS_Product_Custom_Subscription_Helper {
 	}
 
 	/**
-	 * Action handler for saving a post. If a "Custom Subscription" product type post is being saved, this handler
-	 * reads the product count selection input and persists it as post metadata.
+	 * Action handler for saving a post. If a "Custom Subscription" product type
+	 * post is being saved, this handler reads the product count selection input
+	 * and persists it as post metadata.
 	 *
 	 * @since 1.0
 	 */
@@ -48,9 +51,10 @@ class WCCS_Product_Custom_Subscription_Helper {
 	}
 
 	/**
-	 * The WooCommerce Subscriptions plugin invokes action 'woocommerce_subscriptions_product_options_pricing'
-	 * when displaying the editiable product data form. Here we add a drop down selection to modify the
-	 * product count for a Custom Subscription.
+	 * The WooCommerce Subscriptions plugin invokes action
+	 * 'woocommerce_subscriptions_product_options_pricing' when displaying the
+	 * editiable product data form. Here we add a drop down selection to modify
+	 * the product count for a Custom Subscription.
 	 *
 	 * @since 1.0
 	 */
@@ -91,19 +95,21 @@ class WCCS_Product_Custom_Subscription_Helper {
 	}
 
 	/**
-	 * WooCommerce assumes a certain class name format for WooCommerce product types. This assumed format 
-	 * is used when looking up a WC product via WC_Product_Factory. 
+	 * WooCommerce assumes a certain class name format for WooCommerce product
+	 * types. This assumed format is used when looking up a WC product via
+	 * WC_Product_Factory. 
 	 * 
 	 * The assumed format is:
-	 *         'WC_Product' + <Product Specific Name>
+	 *     'WC_Product' + <Product Specific Name>
 	 * where: 
-	 *         <Product Specific Name> == implode( '_', array_map( 'ucfirst', explode( '-', $product_type ) ) ) 
+	 *     <Product Specific Name> == 
+	 *         implode( '_', array_map( 'ucfirst', explode( '-', $product_type ) ) ) 
 	 * 
-	 * You'll notice that the WC_Product_Custom_Subscription follows this format. This handler is implemented 
-	 * as a backup.
+	 * You'll notice that the WC_Product_Custom_Subscription follows this
+	 * format. This handler is implemented as a backup.
 	 * 
-	 * See http://docs.woothemes.com/wc-apidocs/source-class-WC_Product_Factory.html for the implementation of product 
-	 * class resolution.
+	 * See http://docs.woothemes.com/wc-apidocs/source-class-WC_Product_Factory.html
+	 * for the implementation of product class resolution.
 	 *
 	 * @since 1.0
 	 */
@@ -115,8 +121,10 @@ class WCCS_Product_Custom_Subscription_Helper {
 	}
 
 	/**
-	 * WooCommerce Subscription applys filter "woocommerce_subscription_product_types" when resolving a list of
-	 * all valid WooCommerce Subscription product types incase an additional type has been added/extends (our use case).
+	 * WooCommerce Subscription applys filter 
+	 * "woocommerce_subscription_product_types" when resolving a list of all
+	 * valid WooCommerce Subscription product types incase an additional type
+	 * has been added/extends (our use case).
 	 *
 	 * @since 1.0
 	 */
@@ -126,9 +134,10 @@ class WCCS_Product_Custom_Subscription_Helper {
 	}
 
 	/**
-	 * WooCommerce Subscription applys filter "woocommerce_is_subscription" when it is checking if a WC Product is of
-	 * some Subscription product type. WooCommerce Subscriptions only checks against it's provided subscription product 
-	 * types.
+	 * WooCommerce Subscription applys filter "woocommerce_is_subscription"
+	 * when it is checking if a WC Product is of some Subscription product type.
+	 * WooCommerce Subscriptions only checks against it's provided subscription
+	 * product types.
 	 *
 	 * @since 1.0
 	 */
@@ -137,23 +146,27 @@ class WCCS_Product_Custom_Subscription_Helper {
 	}
 
 	/**
-	 * Woocommerce applies filter "product_type_selector" when it resolves a complete list of product types to display
-	 * in the "Add Product" page selector. Here we add selection for "Custom Subscription" product creation.
+	 * Woocommerce applies filter "product_type_selector" when it resolves a
+	 * complete list of product types to display in the "Add Product" page
+	 * selector. Here we add selection for "Custom Subscription" product
+	 * creation.
 	 *
 	 * See http://docs.woothemes.com/wc-apidocs/source-class-WC_Meta_Box_Product_Data.html#33
 	 *
 	 * @since 1.0
 	 */
 	public static function fh_product_type_selector( $product_types ) {
-		// For some reason WooCommerce applies sanitize_title() to the product_type term associated with the product when
-		// creating the select markup. Therefore, we must also apply sanitize_title() to our added product type name so
-		// WooCommerce can properly resolve it.
+		// For some reason WooCommerce applies sanitize_title() to the 
+		// product_type term associated with the product when creating the
+		// select markup. Therefore, we must also apply sanitize_title() to our
+		// added product type name so WooCommerce can properly resolve it.
 		$product_types[ sanitize_title( self::$PRODUCT_TYPE_NAME ) ] = self::$UI_PRODUCT_NAME;
 		return $product_types;
 	}
 
 	/**
-	 * Return true iff the given $product_id is a WC product identifier for a Custom Subscription product type.
+	 * Return true iff the given $product_id is a WC product identifier for a
+	 * Custom Subscription product type.
 	 *
 	 * @param int $product_id
 	 * @since 1.0
