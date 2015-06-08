@@ -18,8 +18,9 @@
  	 */
  	public static function install() {
  		WCCS_Logger()->info( "Attempting plugin installation.", __CLASS__ );
- 		self::install_wp_term_dependencies();
+		self::install_terms();
 		self::install_tables();
+		self::install_pages();
  		WCCS_Logger()->info( "Successful plugin installation.", __CLASS__ );
  	}
 
@@ -38,7 +39,7 @@
  	 *
  	 * @since 1.0
  	 */
- 	private static function install_wp_term_dependencies() {
+	private static function install_terms() {
  		// WooCommerce defines product types as Wordpress Terms.
  		// Install the new Custom Subscription as a new Wordpress Term.
  		if ( !get_term_by( 'name', WCCS_Product_Custom_Subscription_Helper::$PRODUCT_TYPE_NAME, 'product_type' ) ) {
@@ -56,4 +57,12 @@
 		dbDelta( WCCS_UISM_Dao::get_uisms_table_schema() );
 		dbDelta( WCCS_UISM_Dao::get_uism_products_table_schema() );
  	}
+
+	/**
+	 *
+	 * @since 1.0
+	 */
+	private static function install_pages() {
+		WCCS_Page_Configuration::create_pages();
+	}
  }
