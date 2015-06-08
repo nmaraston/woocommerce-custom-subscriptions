@@ -7,39 +7,9 @@
  * @since       1.0
  * @author      Nick Maraston
  */
-
-global $product, $wccs_loop;
-
-// Store loop count we're currently on
-if ( empty( $wccs_loop['loop'] ) ) {
-	$wccs_loop['loop'] = 0;
-}
-
-// Store column count for displaying the grid
-if ( empty( $wccs_loop['columns'] ) ) {
-	$wccs_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
-}
-
-// Ensure visibility
-if ( ! $product || ! $product->is_visible() ) {
-	return;
-}
-
-// Increase loop count
-$wccs_loop['loop']++;
-
-// Extra post classes
-$classes = array();
-if ( 0 == ( $wccs_loop['loop'] - 1 ) % $wccs_loop['columns'] || 1 == $wccs_loop['columns'] ) {
-	$classes[] = 'first';
-}
-if ( 0 == $wccs_loop['loop'] % $wccs_loop['columns'] ) {
-	$classes[] = 'last';
-}
-
 ?>
 
-<li <?php post_class( $classes ); ?>>
+<li>
 
 	<?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
 
@@ -47,10 +17,12 @@ if ( 0 == $wccs_loop['loop'] % $wccs_loop['columns'] ) {
 
 		<?php woocommerce_template_loop_product_thumbnail(); ?>
 
-		<h3><?php the_title(); ?></h3>
+		<h3 id="custom-subscription-product-title"><?php the_title(); ?></h3>
+
+		<?php woocommerce_template_single_excerpt(); ?>
 
 	</a>
 
-	<?php load_template( WCCS()->plugin_path() . "templates/change-product.php", false ); ?>
+	<?php wc_get_template( 'change-product.php', array(), '', WCCS()->default_template_path() ); ?>
 
 </li>
