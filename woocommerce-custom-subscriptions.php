@@ -101,7 +101,9 @@ final class WC_Custom_Subscriptions {
 		include_once( 'includes/class-wccs-uism-random-content-generator.php' );
 		include_once( 'includes/class-wccs-installer.php' );
 		include_once( 'includes/configuration/class-wccs-hook-configuration.php' );
+		include_once( 'includes/configuration/class-wccs-page-configuration.php' );
 		include_once( 'includes/configuration/class-wccs-asset-loader.php' );
+		include_once( 'includes/configuration/class-wccs-template-loader.php' );
 		include_once( 'includes/shortcode/class-wccs-shortcode-config.php' );
 		include_once( 'includes/shortcode/class-wccs-i-shortcode.php' );
 		include_once( 'includes/shortcode/class-wccs-manage-subscription-shortcode.php' );
@@ -150,6 +152,14 @@ final class WC_Custom_Subscriptions {
 	 */ 
 	public function plugin_path() {
 		return plugin_dir_path( self::$plugin_file );
+	}
+
+	/**
+	 * @return the absolute path to the default template directory.
+	 * @since 1.0
+	 */
+	public function default_template_path() {
+		return $this->plugin_path() . 'templates/';
 	}
 }
 
