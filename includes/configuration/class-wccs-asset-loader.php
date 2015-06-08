@@ -20,8 +20,9 @@ class WCCS_Asset_Loader {
 
 	/**
 	 * Called via Wordpress to enqeue additional assets for admin pages.
-	 * Here we enqueue the 'wccs_product_creation_form.js' Javascript asset which is responsible for
-	 * displaying the Custom Subscription product creation form in the "Add Product" page.
+	 * Here we enqueue the 'wccs_product_creation_form.js' Javascript asset
+	 * which is responsible for displaying the Custom Subscription product
+	 * creation form in the "Add Product" page.
 	 * 
 	 * @since 1.0
 	 */
@@ -36,12 +37,13 @@ class WCCS_Asset_Loader {
 	}
 
 	/**
-	 * Enqueue the 'wccs_product_creation_form.js' script. A dependency should be declared on the top level
-	 * WooCommerce Subscriptions plugin admin script.
+	 * Enqueue the 'wccs_product_creation_form.js' script. A dependency
+	 * should be declared on the top level WooCommerce Subscriptions plugin
+	 * admin script.
 	 *
 	 * @since 1.0
 	 */
-	private static function enqueue_wccs_product_creation_script() {
+	public static function enqueue_wccs_product_creation_script() {
 		$script = self::$SCRIPTS_DIR . '/wccs_product_creation_form.js';
 		$script_handle = 'wccs_product_creation_form_script';
 		$script_url = plugin_dir_url( WC_Custom_Subscriptions::$plugin_file ) . $script;
@@ -52,18 +54,48 @@ class WCCS_Asset_Loader {
 	}
 
 	/**
-	 * Enqueue the 'wccs_product_creation_form.css' styles. The CSS styles are depedent on the WooCommerce
-	 * Subscriptions plugin admin styles.
+	 * Enqueue the 'wccs_product_creation_form.css' styles. The CSS styles are
+	 * depedent on the WooCommerce Subscriptions plugin admin styles.
 	 *
 	 * @since 1.0
 	 */
-	private static function enqueue_wccs_product_creation_style() {
+	public static function enqueue_wccs_product_creation_style() {
 		$style = self::$STYLES_DIR . '/wccs_product_creation_form.css';
-		$style_handle = 'wccs_product_creation_form_styles';
+		$style_handle = 'wccs_product_creation_form_style';
 		$style_url = plugin_dir_url( WC_Custom_Subscriptions::$plugin_file ) . $style;
 		$style_dependencies = array( 'woocommerce_subscriptions_admin' );
 		$style_version = filemtime( plugin_dir_path( WC_Custom_Subscriptions::$plugin_file ) . $style );
 		
+		wp_enqueue_style( $style_handle, $style_url, $style_dependencies, $style_version );
+	}
+
+	/**
+	 *
+	 *
+	 * @since 1.0
+	 */
+	public static function enqueue_wccs_my_subscription_styles() {
+		$style = self::$STYLES_DIR . '/wccs_my_subscription.css';
+		$style_handle = 'wccs_my_subscription_style';
+		$style_url = plugin_dir_url( WC_Custom_Subscriptions::$plugin_file ) . $style;
+		$style_dependencies = array();
+		$style_version = filemtime( plugin_dir_path( WC_Custom_Subscriptions::$plugin_file ) . $style );
+
+		wp_enqueue_style( $style_handle, $style_url, $style_dependencies, $style_version );
+	}
+
+	/**
+	 *
+	 *
+	 * @since 1.0
+	 */
+	public static function enqueue_wccs_manage_subscription_styles() {
+		$style = self::$STYLES_DIR . '/wccs_manage_subscription.css';
+		$style_handle = 'wccs_manage_subscription';
+		$style_url = plugin_dir_url( WC_Custom_Subscriptions::$plugin_file ) . $style;
+		$style_dependencies = array();
+		$style_version = filemtime( plugin_dir_path( WC_Custom_Subscriptions::$plugin_file ) . $style );
+
 		wp_enqueue_style( $style_handle, $style_url, $style_dependencies, $style_version );
 	}
 }
