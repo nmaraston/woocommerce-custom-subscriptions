@@ -129,6 +129,11 @@ class WCCS_Hook_Configuration {
 			'woocommerce_add_to_cart',
 			'WCCS_Product_Custom_Subscription_Helper', 'ah_woocommerce_add_to_cart', 10, 6 );
 
+		// Called via WooCommerce on order checkout.
+		$this->wire_hook( self::$ACTION_HOOK_TYPE,
+			'woocommerce_checkout_update_order_meta',
+			'WCCS_Product_Custom_Subscription_Helper', 'ah_woocommerce_checkout_update_order_meta', 10, 2 );
+
 		/*******************************************************
 		 * Init WooCommerce Subscriptions Plugin action hooks.
 		 *******************************************************/
