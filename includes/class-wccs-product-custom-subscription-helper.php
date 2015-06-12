@@ -85,12 +85,32 @@ class WCCS_Product_Custom_Subscription_Helper {
 	 * action is handled by checking if the given $product_id identifies a
 	 * Custom Subscription. If so, we trigger the WCCS_UISM_Manager to
 	 * instantiate a UISM for the user.
+	 *
 	 * @since 1.0
 	 */
 	public static function ah_woocommerce_add_to_cart($cart_item_key, $product_id, $quantity,
 		$variation_id, $variation, $cart_item_data) {
 		if ( self::is_custom_subscription( $product_id ) ) {
 			WCCS_UISM_Manager::uism_sign_up( get_current_user_id(), $product_id );
+		}
+	}
+
+	/**
+	 * Called via WooCommerce on customer checkout. Here we check if the order
+	 * contains any Custom Subscription product types. If so, we apply checkout
+	 *  logic to the associated UISM.
+	 *
+	 * @since 1.0
+	 */
+	public static function ah_woocommerce_checkout_update_order_meta( $order_id, $posted ) {
+		$order = new WC_Order( $order_id );
+
+		// Process UISM checkout for all Custom Subscription products in the order.
+		foreach ( $order->get_items() as $order_item ) {
+			$product_id = $order_item['product_id'];
+			if ( WCCS_Product_Custom_Subscription_Helper::is_custom_subscription( $product_id )) {
+				WCCS_UISM_Manager::uism_checkout( get_current_user_id(), $product_id );
+			}
 		}
 	}
 

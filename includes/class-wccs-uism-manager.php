@@ -89,4 +89,37 @@ class WCCS_UISM_Manager {
 
 		return $uism;
 	}
+
+
+
+	/**
+	 * Apply checkout logic to the UISM identified by the given $user_id and $product_id. The UISM
+	 * must be in a ACTIVE_NONBILLING state before being processed by checkout. On Custom
+	 * Subscription checkout, the UISM state is set to ACTIVE_BILLING.
+	 *
+	 * Return's true iff the UISM state is updated successfully.
+	 *
+	 * @param int $user_id
+	 * @param int $product_id
+	 * @return bool
+	 * @since 1.0
+	 */
+	public static function uism_checkout( $user_id, $product_id ) {
+		if ( ! WCCS_Product_Custom_Subscription_Helper::is_custom_subscription( $product_id ) ) {
+			return false;
+		}
+
+		$uism = WCCS_UISM_Dao::get_uism(
+			array( "user_id" => $user_id, "product_id" => $product_id ) );
+
+		// The UISM must be in the ACTIVE_NONBILLING state before it can be chcecked out.
+		// A INACTIVE UISM can only transition to state ACTIVE_NONBILLING via sign up.
+		if ( ! $uism ||  ! ( $uism->get_state() === WCCS_UISM_State::$ACTIVE_NONBILLING ) ) {
+			return false;
+		}
+
+		$uism->set_state( WCCS_UISM_State::$ACTIVE_BILLING ) ;
+
+		return $uism->save();
+	}
 }
