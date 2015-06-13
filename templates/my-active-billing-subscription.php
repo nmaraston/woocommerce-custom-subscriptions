@@ -12,7 +12,7 @@
  */
 
 $uism = WCCS_UISM_Manager::get_active_uism( get_current_user_id() );
-$custom_subscription_product = $uism->get_base_product();
+$base_subscription_product = $uism->get_base_product();
 ?>
 
 <h1 class="page-title">My Subscription</h1>
@@ -23,7 +23,7 @@ $custom_subscription_product = $uism->get_base_product();
 
 <hr/>
 
-<p><span class="current-subscription-message">Current Subscription:</span> <?php echo get_the_title( $uism->get_base_product()->id ); ?></p>
+<p><span class="current-subscription-message">Current Subscription:</span> <?php echo get_the_title( $base_subscription_product->id ); ?></p>
 
 <h4>Products in your subscription</h4>
 
@@ -35,5 +35,9 @@ $custom_subscription_product = $uism->get_base_product();
 	<a href="">
 		<input type="submit" value="Upgrade" />
 	</a>
-	<p>You can cancel at any time. <a href="" class="custom-subscription-cancel-message">Cancel my subscription</a></p>	
+	<p>You can cancel at any time. 
+        <a href="<?php echo WC_Subscriptions_Manager::get_users_change_status_link( $uism->get_subscription_key(), 'cancelled' ); ?>" class="custom-subscription-cancel-message">
+            Cancel my subscription
+        </a>
+    </p>	
 </div>

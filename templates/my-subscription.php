@@ -23,11 +23,10 @@ get_header( 'mysubscription' ); ?>
 		} else {
 			switch ( $uism->get_state() ) {
 				case WCCS_UISM_State::$ACTIVE_BILLING:
-					wc_get_template( 'my-active-subscription.php', array(), '', WCCS()->default_template_path() );
+					wc_get_template( 'my-active-billing-subscription.php', array(), '', WCCS()->default_template_path() );
 					break;
 				case WCCS_UISM_State::$ACTIVE_NONBILLING:
-				case WCCS_UISM_State::$INACTIVE:
-					wc_get_template( 'my-inactive-subscription.php', array(), '', WCCS()->default_template_path() );
+					wc_get_template( 'my-active-nonbilling-subscription.php', array(), '', WCCS()->default_template_path() );
 					break;
 			}
 		}
