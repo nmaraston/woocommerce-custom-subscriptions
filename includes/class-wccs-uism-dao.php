@@ -19,6 +19,7 @@ class WCCS_UISM_Dao {
 	private $products = array();
 	private $state = NULL;
 	private $base_product = NULL;
+	private $order_id = NULL;
 
 	/**
 	 * Constructs a UISM with a given identifier.
@@ -98,6 +99,7 @@ class WCCS_UISM_Dao {
 
 	/**
 	 * Get the state of the UISM. See WCCS_UISM_State class.
+	 *
 	 * @return String
 	 * @since 1.0
 	 */
@@ -110,6 +112,7 @@ class WCCS_UISM_Dao {
 	 * instantiation of. Input can be a product (post) id or 
 	 * WC_Product_Custom_Subscription instance. If the input can not identify a
 	 * WC_Product_Custom_Subscription then no action is taken.
+	 *
 	 * @param mix (int | WC_Product_Custom_Subscription) $product
 	 * @since 1.0
 	 */
@@ -123,6 +126,7 @@ class WCCS_UISM_Dao {
 	/**
 	 * Get the WC_Product_Custom_Subscription product that this UISM is an
 	 * instantiation of.
+	 *
 	 * @return WC_Product_Custom_Subscription
 	 * @since 1.0
 	 */
@@ -131,17 +135,66 @@ class WCCS_UISM_Dao {
 	}
 
 	/**
+	 * Set the id of the order that the Custom Subscription base product was
+	 * purchased in.
+	 *
+	 * @param int $order_id
+	 * @since 1.0
+	 */
+	public function set_order_id( $order_id ) {
+		$this->order_id = $order_id;
+	}
+
+	/**
+	 * Get the id of the order that the Custom Subscription base product was
+	 * purchased in.
 	 *
 	 * @return int
 	 * @since 1.0
 	 */
+	public function get_order_id() {
+		return $this->order_id;
+	}
+
+	/**
+	 * Get the number of products allowed to customize in this UISM. If no base
+	 * product is set, return false.
+	 *
+	 * @return mix (int | bool)
+	 * @since 1.0
+	 */
 	public function get_product_count() {
+		if ( is_null( $this->base_product ) ) {
+			return false;
+		}
 		return $this->base_product->get_product_count();
+	}
+
+	/**
+	 * Return the subscription key associated with this UISM. The Woocommerce
+	 * Subscriptions plugin defines the subscription key to be:
+	 *
+	 * 	"$productid_$orderid"
+	 *
+	 * where $productid is the base Custom Subscription
+	 * product id and $orderid is the id of the purchase order that the Custom
+	 * Subscription product was purchased in. Return false if the UISM order id
+	 * is not set.
+	 *
+	 * @return mix (string | bool)
+	 * @since 1.0
+	 */
+	public function get_subscription_key() {
+		if ( is_null( $this->order_id ) ) {
+			return false;
+		}
+		return $this->order_id . '_' . $this->base_product->id;
 	}
 
 	/**
 	 * Return true iff the given $slot number is valid. That is, it is within 
 	 * the bounds of the UISM product count.
+	 *
 	 * @return bool
 	 * @since 1.0
 	 */
@@ -195,13 +248,14 @@ class WCCS_UISM_Dao {
 		global $wpdb;
 		$table_name = self::get_uisms_table_name();
 		$base_product_id = $this->base_product->id;
+		$order_id = is_null( $this->order_id ) ? 'NULL' : $this->order_id;
 		$wpdb->query(
 			"
 			INSERT INTO $table_name
-			( user_id, product_id, state )
+			( user_id, product_id, state, order_id )
 			VALUES 
-			( $this->user_id, $base_product_id, '$this->state' )
-			ON DUPLICATE KEY UPDATE state = '$this->state'
+			( $this->user_id, $base_product_id, '$this->state', $order_id )
+			ON DUPLICATE KEY UPDATE state = '$this->state', order_id = $order_id
 			;"
 		);
 
@@ -275,11 +329,11 @@ class WCCS_UISM_Dao {
 			return NULL;
 		}
 
-		$table_name = self::get_uism_products_table_name();
+		$uism_produts_table_name = self::get_uism_products_table_name();
 		$product_rows = $wpdb->get_results(
 			"
 			SELECT *
-			FROM $table_name
+			FROM $uism_produts_table_name
 			WHERE uism_id = $uism_row->id
 			;", OBJECT );
 
@@ -288,6 +342,7 @@ class WCCS_UISM_Dao {
 		$uism->set_user_id( $uism_row->user_id );
 		$uism->set_state( $uism_row->state );
 		$uism->set_base_product( $uism_row->product_id );
+		$uism->set_order_id( $uism_row->order_id );
 
 		$products = [];
 		foreach ( $product_rows as $product_row ) {
@@ -365,6 +420,7 @@ class WCCS_UISM_Dao {
 
 	/**
 	 * Return the MySQL table name for the UISM table.
+	 *
 	 * @return string
 	 * @since 1.0
 	 */
@@ -375,6 +431,7 @@ class WCCS_UISM_Dao {
 
 	/**
 	 * Return the MySQL table name for the UISM products table.
+	 *
 	 * @return string
 	 * @since 1.0
 	 */
@@ -390,6 +447,7 @@ class WCCS_UISM_Dao {
 	 * instantiated custom suscription.
 	 *
 	 * Table keys: (id), (user_id, product_id), (user_id, state)
+	 *
 	 * @return string
 	 * @since 1.0
 	 */
@@ -405,6 +463,7 @@ class WCCS_UISM_Dao {
 				user_id BIGINT(20) UNSIGNED NOT NULL,
 				product_id BIGINT(20) UNSIGNED NOT NULL,
 				state ENUM('ACTIVE_NONBILLING', 'ACTIVE_BILLING', 'INACTIVE'),
+				order_id BIGINT(20) UNSIGNED,
 				PRIMARY KEY (id),
 				UNIQUE KEY user_product (user_id, product_id),
 				UNIQUE KEY user_state (user_id, state)
@@ -421,6 +480,7 @@ class WCCS_UISM_Dao {
 	 * user's custom subscription.
 	 *
 	 * Table key: (uism_id, slot_number)
+	 *
 	 * @return string
 	 * @since 1.0
 	 */
