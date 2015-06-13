@@ -98,7 +98,7 @@ class WCCS_Product_Custom_Subscription_Helper {
 	/**
 	 * Called via WooCommerce on customer checkout. Here we check if the order
 	 * contains any Custom Subscription product types. If so, we apply checkout
-	 *  logic to the associated UISM.
+	 * logic to the associated UISM.
 	 *
 	 * @since 1.0
 	 */
@@ -109,9 +109,20 @@ class WCCS_Product_Custom_Subscription_Helper {
 		foreach ( $order->get_items() as $order_item ) {
 			$product_id = $order_item['product_id'];
 			if ( WCCS_Product_Custom_Subscription_Helper::is_custom_subscription( $product_id )) {
-				WCCS_UISM_Manager::uism_checkout( get_current_user_id(), $product_id );
+				WCCS_UISM_Manager::uism_checkout( get_current_user_id(), $order_id );
 			}
 		}
+	}
+
+	/**
+	 * Called via WooCommerce Subscriptions after processing the cancellation of
+	 * a subscription.
+	 *
+	 * @since 1.0
+	 */
+	public static function ah_cancelled_subscription( $user_id, $subscription_key ) {
+		$product_id = WC_Subscriptions_Manager::get_subscription( $subscription_key )['product_id'];
+		WCCS_UISM_Manager::uism_cancel( $user_id, $product_id );
 	}
 
 	/**
