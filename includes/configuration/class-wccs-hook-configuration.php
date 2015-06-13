@@ -143,6 +143,11 @@ class WCCS_Hook_Configuration {
 			'woocommerce_subscriptions_product_options_pricing',
 			'WCCS_Product_Custom_Subscription_Helper', 'ah_woocommerce_subscriptions_product_options_pricing', 10, 0 );
 
+		// Called via WooCommerce Subscriptions when cancelling a user's subscription.
+		$this->wire_hook( self::$ACTION_HOOK_TYPE,
+			'cancelled_subscription',
+			'WCCS_Product_Custom_Subscription_Helper', 'ah_cancelled_subscription', 10, 2 );
+
 
 		WCCS_Logger()->info( "-----------------------------------------", __CLASS__ );
 	}
