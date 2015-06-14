@@ -1,5 +1,7 @@
 <?php
 /**
+ * !!! THIS TEMPLATE IS OVERRIDABLE VIA PATH <THEME ROOT>/woocommerce/custom-subscriptions !!!
+ *
  * The template for displaying custom subscription product content within Loops.
  *
  * @package     WooCommerceCustomSubscriptions/templates

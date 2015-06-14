@@ -1,5 +1,7 @@
 <?php
 /**
+ * !!! THIS TEMPLATE IS OVERRIDABLE VIA PATH <THEME ROOT>/woocommerce/custom-subscriptions !!!
+ *
  * The template for displaying the custom subscription upgrade button.
  *
  * @package     WooCommerceCustomSubscriptions/templates
