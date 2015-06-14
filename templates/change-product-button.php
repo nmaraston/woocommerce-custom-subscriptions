@@ -1,6 +1,8 @@
 <?php
 /**
- * UI interface for replacing a product in the user's Manage Subscription UI.
+ * !!! THIS TEMPLATE IS OVERRIDABLE VIA PATH <THEME ROOT>/woocommerce/custom-subscriptions !!!
+ *
+ * Template for replacing a product in the user's Manage Subscription UI.
  *
  * @package     WooCommerceCustomSubscriptions/templates
  * @version     1.0

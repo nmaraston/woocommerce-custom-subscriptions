@@ -1,5 +1,7 @@
 <?php
 /**
+ * !!! THIS TEMPLATE IS OVERRIDABLE VIA PATH <THEME ROOT>/woocommerce/custom-subscriptions !!!
+ *
  * The template for displaying custom subscription product content within Loops.
  *
  * @package     WooCommerceCustomSubscriptions/templates
@@ -23,6 +25,6 @@
 
 	</a>
 
-	<?php wc_get_template( 'change-product.php', array(), '', WCCS()->default_template_path() ); ?>
+	<?php wccs_get_template( 'change-product-button.php' ); ?>
 
 </li>

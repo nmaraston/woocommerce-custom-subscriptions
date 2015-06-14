@@ -25,15 +25,18 @@ class WCCS_Template_Loader {
 	public static function fh_template_include( $template ) {
 		$find = array( "woocommerce-custom-subscriptions.php" );
 		$file = "";
+		$allow_override = true;
 
 		if ( is_page( WCCS_Page_Configuration::get_page_id( "mysubscription" ) ) ) {
+
+			// Do not allow template overriding for the top level my-subscription template file.
+			$allow_override = false;
 			$file = "my-subscription.php";
-			$find[] = $file;
-			$find[] = WC()->template_path() . $file;
+			$template = WCCS()->default_template_path() . 'my-subscription/' . $file;
 			WCCS_Asset_Loader::enqueue_wccs_my_subscription_styles();
 		}
 
-		if ( $file ) {
+		if ( $file && $allow_override ) {
 			$template = locate_template( array_unique( $find ) );
 			if ( ! $template ) {
 				$template = WCCS()->default_template_path() . $file;

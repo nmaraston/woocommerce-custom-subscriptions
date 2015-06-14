@@ -1,6 +1,8 @@
 <?php
 /**
- * UI interface for display a Custom Subscription product count.
+ * !!! THIS TEMPLATE IS OVERRIDABLE VIA PATH <THEME ROOT>/woocommerce/custom-subscriptions !!!
+ *
+ * Template for displaying a Custom Subscription product count.
  *
  * @package     WooCommerceCustomSubscriptions/templates
  * @version     1.0

@@ -1,5 +1,7 @@
 <?php
 /**
+ * !!! THIS TEMPLATE IS OVERRIDABLE VIA PATH <THEME ROOT>/woocommerce/custom-subscriptions !!!
+ *
  * The Template for displaying a user's active "my subscription" management
  * page.
  *
