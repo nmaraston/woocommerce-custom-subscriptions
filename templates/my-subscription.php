@@ -18,15 +18,15 @@ get_header( 'mysubscription' ); ?>
 
 		if ( ! $uism ) {
 			?>
-			<p>You have not subscribed to a custom subscription product.</p>
+			<p>You have not signed up for a custom subscription product.</p>
 			<?php
 		} else {
 			switch ( $uism->get_state() ) {
 				case WCCS_UISM_State::$ACTIVE_BILLING:
-					wc_get_template( 'my-active-billing-subscription.php', array(), '', WCCS()->default_template_path() );
+					wccs_get_template( 'my-active-billing-subscription.php' );
 					break;
 				case WCCS_UISM_State::$ACTIVE_NONBILLING:
-					wc_get_template( 'my-active-nonbilling-subscription.php', array(), '', WCCS()->default_template_path() );
+					wccs_get_template( 'my-active-nonbilling-subscription.php' );
 					break;
 			}
 		}
