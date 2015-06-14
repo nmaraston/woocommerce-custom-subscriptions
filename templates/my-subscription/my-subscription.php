@@ -13,6 +13,13 @@
 
 get_header( 'mysubscription' ); ?>
 
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+
+	<h1 class="page-title">My Subscription</h1>
+
 	<?php
 		do_action( 'woocommerce_before_main_content' );
 

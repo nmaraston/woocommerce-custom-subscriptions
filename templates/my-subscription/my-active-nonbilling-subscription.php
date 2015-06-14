@@ -16,8 +16,6 @@
 $uism = WCCS_UISM_Manager::get_active_uism( get_current_user_id() );
 ?>
 
-<h1 class="page-title">My Subscription</h1>
-
 <div class="subscription-status-message">
 	<p>Your subscription status is <span class="custom-subscription-state-inactive">INACTIVE</span>.</p>
 	<p><a href="<?php echo wc_get_page_permalink('checkout'); ?>">Checkout</a> now to activate.</p>

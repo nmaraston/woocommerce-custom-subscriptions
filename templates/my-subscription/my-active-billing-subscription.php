@@ -17,8 +17,6 @@ $uism = WCCS_UISM_Manager::get_active_uism( get_current_user_id() );
 $base_subscription_product = $uism->get_base_product();
 ?>
 
-<h1 class="page-title">My Subscription</h1>
-
 <div class="subscription-status-message">
 	<p>Your subscription plan is <span class="custom-subscription-state-active">ACTIVE</span>.</p>
 </div>
