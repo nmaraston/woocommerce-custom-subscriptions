@@ -125,6 +125,21 @@ class WCCS_Product_Custom_Subscription_Helper {
 		WCCS_UISM_Manager::uism_cancel( $user_id, $product_id );
 	}
 
+
+	/**
+	 * Called via WooCommerce after displaying product content. Here we load the 
+	 * template to display the Custom Subscription product count.
+	 *
+	 * @since 1.0
+	 */
+	public static function ah_woocommerce_after_shop_loop_item() {
+		global $product;
+
+		if ( self::is_custom_subscription( $product->id ) ) {
+			load_template( WCCS()->plugin_path() . "templates/loop/product-count.php", false );
+		}
+	}
+
 	/**
 	 * WooCommerce assumes a certain class name format for WooCommerce product
 	 * types. This assumed format is used when looking up a WC product via
@@ -160,7 +175,13 @@ class WCCS_Product_Custom_Subscription_Helper {
 	 * @since 1.0
 	 */
 	public static function fh_woocommerce_subscription_product_types( $product_types ) {
-		array_push( $product_types, self::$PRODUCT_TYPE_NAME );
+		// For some reason WooCommerce applies sanitize_title() to the
+		// product_type term associated with the product when creating the
+		// select markup. Therefore, we must also apply sanitize_title() to our
+		// added product type name so WooCommerce can properly resolve it.
+		//
+		// See http://docs.woothemes.com/wc-apidocs/source-class-WC_Meta_Box_Product_Data.html#33
+		array_push( $product_types, sanitize_title( self::$PRODUCT_TYPE_NAME  ) );
 		return $product_types;
 	}
 
@@ -182,8 +203,6 @@ class WCCS_Product_Custom_Subscription_Helper {
 	 * selector. Here we add selection for "Custom Subscription" product
 	 * creation.
 	 *
-	 * See http://docs.woothemes.com/wc-apidocs/source-class-WC_Meta_Box_Product_Data.html#33
-	 *
 	 * @since 1.0
 	 */
 	public static function fh_product_type_selector( $product_types ) {
@@ -191,6 +210,8 @@ class WCCS_Product_Custom_Subscription_Helper {
 		// product_type term associated with the product when creating the
 		// select markup. Therefore, we must also apply sanitize_title() to our
 		// added product type name so WooCommerce can properly resolve it.
+		//
+		// See http://docs.woothemes.com/wc-apidocs/source-class-WC_Meta_Box_Product_Data.html#33
 		$product_types[ sanitize_title( self::$PRODUCT_TYPE_NAME ) ] = self::$UI_PRODUCT_NAME;
 		return $product_types;
 	}
