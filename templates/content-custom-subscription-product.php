@@ -23,6 +23,6 @@
 
 	</a>
 
-	<?php wc_get_template( 'change-product.php', array(), '', WCCS()->default_template_path() ); ?>
+	<?php wccs_get_template( 'change-product.php' ); ?>
 
 </li>

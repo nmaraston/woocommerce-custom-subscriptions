@@ -45,8 +45,7 @@ class WCCS_Manage_Subscription_Shortcode implements WCCS_I_Shortcode {
 
 				if ( $posts->have_posts() ) : ?>
 					<?php while ( $posts->have_posts() ) : $posts->the_post(); ?>
-						<?php load_template( WCCS()->plugin_path() . 
-							"templates/content-custom-subscription-product.php", false ); ?>
+						<?php wccs_get_template( 'content-custom-subscription-product.php' ); ?>
 					<?php endwhile; ?>
 				<?php endif;
 			}
@@ -54,8 +53,7 @@ class WCCS_Manage_Subscription_Shortcode implements WCCS_I_Shortcode {
 			woocommerce_product_loop_end();
 			wp_reset_postdata();
 
-			load_template( WCCS()->plugin_path() . 
-				"templates/custom-subscription-upgrade.php", false );
+			wccs_get_template( 'custom-subscription-upgrade-button.php' );
 		}
 
 		WCCS_Asset_Loader::enqueue_wccs_manage_subscription_styles();

@@ -136,7 +136,7 @@ class WCCS_Product_Custom_Subscription_Helper {
 		global $product;
 
 		if ( self::is_custom_subscription( $product->id ) ) {
-			load_template( WCCS()->plugin_path() . "templates/loop/product-count.php", false );
+			wccs_get_template( 'loop/product-count.php' );
 		}
 	}
 
