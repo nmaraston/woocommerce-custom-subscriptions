@@ -27,9 +27,12 @@ class WCCS_Template_Loader {
 		$file = "";
 
 		if ( is_page( WCCS_Page_Configuration::get_page_id( "mysubscription" ) ) ) {
+
+			// Do not allow template overriding for the top level my-subscription template file.
 			$file = "my-subscription.php";
 			$find[] = $file;
-			$find[] = WC()->template_path() . $file;
+			$find[] = WCCS()->default_template_path() . $file;
+
 			WCCS_Asset_Loader::enqueue_wccs_my_subscription_styles();
 		}
 
