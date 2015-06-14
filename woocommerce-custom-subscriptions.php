@@ -100,6 +100,7 @@ final class WC_Custom_Subscriptions {
 		include_once( 'includes/class-wccs-uism-i-content-generator.php' );
 		include_once( 'includes/class-wccs-uism-random-content-generator.php' );
 		include_once( 'includes/class-wccs-installer.php' );
+		include_once( 'includes/wccs-template-functions.php' );
 		include_once( 'includes/configuration/class-wccs-hook-configuration.php' );
 		include_once( 'includes/configuration/class-wccs-page-configuration.php' );
 		include_once( 'includes/configuration/class-wccs-asset-loader.php' );
@@ -160,6 +161,15 @@ final class WC_Custom_Subscriptions {
 	 */
 	public function default_template_path() {
 		return $this->plugin_path() . 'templates/';
+	}
+
+	/**
+	 * @return the relative path (to theme root) to the folder where template
+	 *         overrides are searched for.
+	 * @since 1.0
+	 */
+	public function override_template_path() {
+		return WC()->template_path() . 'custom-subscriptions/';
 	}
 }
 
