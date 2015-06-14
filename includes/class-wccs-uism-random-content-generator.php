@@ -12,17 +12,17 @@
 class WCCS_UISM_Random_Content_Generator implements WCCS_UISM_I_Content_Generator {
 
 	/**
-	 * Generates product contents randomly. WC_Subscripton products are 
-	 * excluded. Returns false if no other product types exist in the catalog.
+	 * Generates product contents randomly. Only Simple product types are
+	 * included. Returns false if no other product types exist in the catalog.
 	 *
 	 * @since 1.0
 	 */
 	public function generate_products( $user_id, $product_id ) {
-		$product_posts = get_posts( array( "post_type" => "product" ) );
+		$product_posts = get_posts( array( "post_type" => "product", "posts_per_page" => -1 ) );
 		$product_sample_set = array();
 		foreach ( $product_posts as $product_post ) {
 			$wc_product = get_product( $product_post->ID );
-			if ( ! WC_Subscriptions_Product::is_subscription( $wc_product ) ) {
+			if ( $wc_product->is_type( array( 'simple' ) ) ) {
 				$product_sample_set[] = $wc_product;
 			}
 		}
