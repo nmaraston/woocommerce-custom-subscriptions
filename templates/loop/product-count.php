@@ -19,5 +19,5 @@ if ( !$product->is_type( array( WCCS_Product_Custom_Subscription_Helper::$PRODUC
 ?>
 
 <span class="custom-subscription-product-count">
-    Contains <?php echo $product->get_product_count(); ?> customizable items.
+    <?php echo $product->get_product_count(); ?> customizable items
 </span>
