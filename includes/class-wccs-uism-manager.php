@@ -28,13 +28,20 @@ class WCCS_UISM_Manager {
 			return false;
 		}
 
+		$uism = self::get_active_uism( $user_id );
+
+		if ( $uism ) {
+			// If any active UISM already exists, abort sign-up.
+			return false;
+		}
+
 		$uism = WCCS_UISM_Dao::get_uism( 
 			array( "user_id" => $user_id, "product_id" => $product_id ) );
 
 		if ( $uism ) {
-			// If an active UISM already exists, stop and return false. Else,
-			// the UISM we retrived must be inactive. Reactivate it. If it
-			// already contains existing product contents then use those too.
+			// Our check for an active UISM above should imply that this UISM is
+			// inactive. As above, if it is, abort sign-up. If the UISM is
+			// INACTIVE, reactivate it and use it's product contents.
 			if ( $uism->get_state() === WCCS_UISM_State::$ACTIVE_NONBILLING ||
 			     $uism->get_state() === WCCS_UISM_State::$ACTIVE_BILLING ) {
 				return false;

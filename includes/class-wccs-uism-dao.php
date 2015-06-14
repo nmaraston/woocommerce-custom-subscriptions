@@ -344,7 +344,6 @@ class WCCS_UISM_Dao {
 		$uism->set_base_product( $uism_row->product_id );
 		$uism->set_order_id( $uism_row->order_id );
 
-		$products = [];
 		foreach ( $product_rows as $product_row ) {
 			$uism->set_product_at_slot( 
 				get_product( $product_row->product_id ), intval( $product_row->slot_number ) );
