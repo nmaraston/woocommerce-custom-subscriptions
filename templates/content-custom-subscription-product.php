@@ -25,6 +25,6 @@
 
 	</a>
 
-	<?php wccs_get_template( 'change-product.php' ); ?>
+	<?php wccs_get_template( 'change-product-button.php' ); ?>
 
 </li>
