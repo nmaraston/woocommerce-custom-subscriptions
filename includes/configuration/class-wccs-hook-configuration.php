@@ -134,6 +134,11 @@ class WCCS_Hook_Configuration {
 			'woocommerce_checkout_update_order_meta',
 			'WCCS_Product_Custom_Subscription_Helper', 'ah_woocommerce_checkout_update_order_meta', 10, 2 );
 
+		// Called via WooCommerce in The Loop after displaying product content.
+		$this->wire_hook( self::$ACTION_HOOK_TYPE,
+			'woocommerce_after_shop_loop_item',
+			'WCCS_Product_Custom_Subscription_Helper', 'ah_woocommerce_after_shop_loop_item', 9, 0 );
+
 		/*******************************************************
 		 * Init WooCommerce Subscriptions Plugin action hooks.
 		 *******************************************************/
