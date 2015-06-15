@@ -54,7 +54,7 @@ class WCCS_UISM_Manager {
 		$uism->set_user_id( get_current_user_id() );
 		$uism->set_state( WCCS_UISM_State::$ACTIVE_NONBILLING );
 
-		if ( empty( $uism->get_products ) ) {
+		if ( empty( $uism->get_products() ) ) {
 			$content_generator = self::get_product_content_generator();
 			$products = $content_generator->generate_products( $user_id, $product_id );
 		}
@@ -64,6 +64,44 @@ class WCCS_UISM_Manager {
 		}
 
 		return $uism->save();
+	}
+
+	/**
+	 * Upgrade a user's subsction to the Custom Subscription identified by the
+	 * given $product_id. (This logic applies to downgrading as well.)
+	 *
+	 * @since 1.0
+	 */
+	public static function uism_upgrade( $user_id, $product_id ) {
+		if ( ! WCCS_Product_Custom_Subscription_Helper::is_custom_subscription( $product_id ) ) {
+			return false;
+		}
+
+		$old_uism = self::get_active_uism( $user_id );
+
+		if ( !$old_uism ) {
+			return false;
+		}
+
+		// Invalidate the current user's UISM
+		$old_uism->set_state( WCCS_UISM_State::$INACTIVE );
+		$old_uism->save();
+
+		// Sign up new UISM
+		if ( !self::uism_sign_up( $user_id, $product_id ) ) {
+			return false;
+		}
+		$new_uism = self::get_active_uism( $user_id );
+
+		// Prefix the new UISM's product list with the initial UISM products
+		$old_products = $old_uism->get_products();
+		$new_products = $new_uism->get_products();
+
+		for ( $index = 0; $index < count( $old_products ); $index++ ) {
+			$new_uism->set_product_at_slot( $old_products[$index], $index);
+		}
+
+		return $new_uism->save();
 	}
 
 	/**
