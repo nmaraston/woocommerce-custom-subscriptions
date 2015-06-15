@@ -16,5 +16,5 @@ interface WCCS_I_Shortcode {
 	 *
 	 * @since 1.0
 	 */
-	public static function output();
+	public static function output( $atts = array() );
 }
