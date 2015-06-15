@@ -108,6 +108,7 @@ final class WC_Custom_Subscriptions {
 		include_once( 'includes/shortcode/class-wccs-shortcode-config.php' );
 		include_once( 'includes/shortcode/class-wccs-i-shortcode.php' );
 		include_once( 'includes/shortcode/class-wccs-manage-subscription-shortcode.php' );
+		include_once( 'includes/shortcode/class-wccs-custom-subscription-select.php' );
 	}
 
 	/**
