@@ -20,7 +20,7 @@
  		WCCS_Logger()->info( "Attempting plugin installation.", __CLASS__ );
 		self::install_terms();
 		self::install_tables();
-		self::install_pages();
+		WCCS_Page_Configuration::create_pages();
  		WCCS_Logger()->info( "Successful plugin installation.", __CLASS__ );
  	}
 
@@ -31,6 +31,7 @@
  	 */
  	public static function uninstall() {
 		WCCS_Logger()->info( "Attempting plugin uninstallation.", __CLASS__ );
+		WCCS_Page_Configuration::destroy_pages();
 		WCCS_Logger()->info( "Successful plugin uninstallation.", __CLASS__ );
  	}
 
@@ -57,12 +58,4 @@
 		dbDelta( WCCS_UISM_Dao::get_uisms_table_schema() );
 		dbDelta( WCCS_UISM_Dao::get_uism_products_table_schema() );
  	}
-
-	/**
-	 *
-	 * @since 1.0
-	 */
-	private static function install_pages() {
-		WCCS_Page_Configuration::create_pages();
-	}
  }

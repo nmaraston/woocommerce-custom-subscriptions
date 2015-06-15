@@ -35,7 +35,7 @@ class WCCS_Page_Configuration {
 				'wccs_' . $key . '_page_id', 
 				$page_meta['title'], 
 				$page_meta['content']
-				);
+			);
 		}
 	}
 
@@ -43,8 +43,9 @@ class WCCS_Page_Configuration {
 	 * Remove all pages that come with the WCCS plugin.
 	 */
 	public static function destroy_pages() {
-		foreach ( $pages as $key => $page_meta ) {
+		foreach ( self::$page_config_map as $key => $page_meta ) {
 			wp_trash_post( self::get_page_id( $key ) );
+			delete_option( 'wccs_' . $key . '_page_id' );
 		}
 	}
 
