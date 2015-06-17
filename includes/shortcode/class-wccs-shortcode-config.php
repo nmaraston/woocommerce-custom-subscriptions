@@ -20,7 +20,8 @@ class WCCS_Shortcode_Config {
 	 * @since 1.0
 	 */
 	private static $shortcode_config_map = array(
-		'manage_subscription' => 'WCCS_Manage_Subscription_Shortcode'
+		'manage_subscription' => 'WCCS_Manage_Subscription_Shortcode',
+		'custom_subscription_select' => 'WCCS_Custom_Subscription_Select'
 	);
 
 	/**

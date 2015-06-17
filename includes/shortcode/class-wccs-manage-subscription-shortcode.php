@@ -1,6 +1,7 @@
 <?php
 /**
- * Shortcode interface. All shortcodes in the plugin implement this interface.
+ * Implements the manage_subscription shortcode. Displays subscription contents
+ * management UI.
  *
  * @interface   WCCS_Manage_Subscription_Shortcode
  * @package     WooCommerceCustomSubscriptions/shortcode
@@ -18,7 +19,7 @@ class WCCS_Manage_Subscription_Shortcode implements WCCS_I_Shortcode {
 	 * @return string
 	 * @since 1.0
 	 */
-	public static function output() {
+	public static function output( $atts = array() ) {
 		$uism = WCCS_UISM_Manager::get_active_uism( get_current_user_id() );
 
 		ob_start();
