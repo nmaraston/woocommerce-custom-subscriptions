@@ -13,7 +13,7 @@
 class WCCS_Custom_Subscription_Select implements WCCS_I_Shortcode {
 
     /**
-     *
+     * Output UI for selecting a custom subscription for sign up.
      *
      * @return string
      * @since 1.0
