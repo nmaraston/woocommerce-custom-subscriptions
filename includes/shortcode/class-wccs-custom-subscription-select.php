@@ -48,6 +48,6 @@ class WCCS_Custom_Subscription_Select implements WCCS_I_Shortcode {
         woocommerce_product_loop_end();
         wp_reset_postdata();
 
-        return "<div class='woocommerce custom-subscription-select'>" . ob_get_clean() . "</div>";
+        return "<div class='custom-subscription-select'>" . ob_get_clean() . "</div>";
     }
 }

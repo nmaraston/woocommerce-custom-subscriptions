@@ -4,6 +4,8 @@
  *
  * The template for displaying custom subscription selection UI.
  *
+ * Assumes we are in The Loop.
+ *
  * @package     WooCommerceCustomSubscriptions/templates
  * @version     1.0
  * @since       1.0
@@ -13,26 +15,30 @@
 
 <li>
 
-    <?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
+    <?php
+        $wc_product = wc_get_product( get_the_ID() );
 
-    <a href="<?php the_permalink(); ?>">
+        $product_title = get_the_title();
+        $product_price_html = $wc_product->get_price_html();
 
-        <?php woocommerce_template_loop_product_thumbnail(); ?>
+        // Build Custom Subscription Product sign up url
+        $my_subscription_page_link = get_page_link( WCCS_Page_Configuration::get_page_id( 'mysubscription' ) );
+        $raw_sign_up_url = add_query_arg( 'add-to-cart', $wc_product->id, $my_subscription_page_link );
+        $sign_up_url = esc_url( $raw_sign_up_url );
+    ?>
 
-        <h3 id="custom-subscription-product-title"><?php the_title(); ?></h3>
-
-        <?php woocommerce_template_single_excerpt(); ?>
-
-        <?php
-            $sign_up_url = get_permalink( WCCS_Page_Configuration::get_page_id('mysubscription') );
-            $sign_up_url .= '&add-to-cart=' . get_the_ID();
-        ?>
-
-        <a href="<?php echo $sign_up_url ?>"
-            rel="nofollow" >
-            <input type="submit" value="Select" />
-        </a>
-
-    </a>
+    <div>
+        <ul>
+            <li>
+                <h3 class="plan-name"><?php echo $product_title; ?></h3>
+            </li>
+            <li>
+                <p>
+                    <?php echo $product_price_html; ?>
+                </p>
+            </li>
+            <a href="<?php echo $sign_up_url; ?>">Choose</a>
+        </ul>
+    </div>
 
 </li>
