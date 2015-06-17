@@ -41,7 +41,7 @@ class WCCS_Custom_Subscription_Select implements WCCS_I_Shortcode {
 
         if ( $products->have_posts() ) : ?>
             <?php while ( $products->have_posts() ) : $products->the_post(); ?>
-                <?php wccs_get_template( 'content-custom-subscription-selection.php' ); ?>
+                <?php wccs_get_template( 'loop/content-custom-subscription-selection.php' ); ?>
             <?php endwhile; ?>
         <?php endif;
 
