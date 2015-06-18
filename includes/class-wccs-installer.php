@@ -20,19 +20,8 @@
  		WCCS_Logger()->info( "Attempting plugin installation.", __CLASS__ );
 		self::install_terms();
 		self::install_tables();
-		WCCS_Page_Configuration::create_pages();
+		self::install_pages();
  		WCCS_Logger()->info( "Successful plugin installation.", __CLASS__ );
- 	}
-
- 	/**
- 	 * Uninstall logic for WCCS plugin.
- 	 * 
- 	 * @since 1.0
- 	 */
- 	public static function uninstall() {
-		WCCS_Logger()->info( "Attempting plugin uninstallation.", __CLASS__ );
-		WCCS_Page_Configuration::destroy_pages();
-		WCCS_Logger()->info( "Successful plugin uninstallation.", __CLASS__ );
  	}
 
  	/**
@@ -61,4 +50,13 @@
 		dbDelta( WCCS_UISM_Dao::get_uisms_table_schema() );
 		dbDelta( WCCS_UISM_Dao::get_uism_products_table_schema() );
     }
+
+	/**
+	 * Create all WordPress pages that are supplied by the plugin.
+	 *
+	 * @since 1.0
+	 */
+	private static function install_pages() {
+		WCCS_Page_Configuration::create_pages();
+	}
  }
