@@ -75,18 +75,11 @@ class WCCS_Hook_Configuration {
 	 * @since 1.0
 	 */
 	public function wire_activation_hooks( $plugin_file_path ) {
-		WCCS_Logger()->info( "-----------------------------------------", __CLASS__ );
 		WCCS_Logger()->info( "Wiring activation hooks:", __CLASS__ );
 
 		// Trigger install logic on plugin activation
 		$this->wire_hook( self::$ACTIVIATION_HOOK_TYPE,
 			$plugin_file_path, 'WCCS_Installer', 'install' );
-
-		// Trigger uninstall logic on plugin deactivation
-		$this->wire_hook( self::$DEACTIVIATION_HOOK_TYPE,
-			$plugin_file_path, 'WCCS_Installer', 'uninstall' );
-
-		WCCS_Logger()->info( "-----------------------------------------", __CLASS__ );
 	}
 
 
@@ -97,7 +90,6 @@ class WCCS_Hook_Configuration {
 	 * @since 1.0
 	 */
 	public function wire_action_hooks() {
-		WCCS_Logger()->info( "-----------------------------------------", __CLASS__ );
 		WCCS_Logger()->info( "Wiring action hooks:", __CLASS__ );
 
 		/*******************************************************
@@ -152,9 +144,6 @@ class WCCS_Hook_Configuration {
 		$this->wire_hook( self::$ACTION_HOOK_TYPE,
 			'cancelled_subscription',
 			'WCCS_Product_Custom_Subscription_Helper', 'ah_cancelled_subscription', 10, 2 );
-
-
-		WCCS_Logger()->info( "-----------------------------------------", __CLASS__ );
 	}
 
 
@@ -166,7 +155,6 @@ class WCCS_Hook_Configuration {
 	 * @since 1.0
 	 */
 	public function wire_filter_hooks() {
-		WCCS_Logger()->info( "-----------------------------------------", __CLASS__ );
 		WCCS_Logger()->info( "Wiring filter hooks:", __CLASS__ );
 
 		/*******************************************************
@@ -205,8 +193,6 @@ class WCCS_Hook_Configuration {
 		$this->wire_hook( self::$FILTER_HOOK_TYPE,
 			'woocommerce_is_subscription',
 			'WCCS_Product_Custom_Subscription_Helper', 'fh_woocommerce_is_subscription', 10, 2 );
-
-		WCCS_Logger()->info( "-----------------------------------------", __CLASS__ );
 	}
 
 	/**

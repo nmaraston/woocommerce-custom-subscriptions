@@ -20,6 +20,11 @@ class WCCS_Page_Configuration {
 			'name'  => 'my-subscription',
 			'title' => 'My Subscription',
 			'content' => ''
+		),
+		'subscriptionselection' => array(
+			'name' => 'subscription-selection',
+			'title' => 'Subscription Selection',
+			'content' => ''
 		)
 	);
 
@@ -36,16 +41,6 @@ class WCCS_Page_Configuration {
 				$page_meta['title'], 
 				$page_meta['content']
 			);
-		}
-	}
-
-	/**
-	 * Remove all pages that come with the WCCS plugin.
-	 */
-	public static function destroy_pages() {
-		foreach ( self::$page_config_map as $key => $page_meta ) {
-			wp_trash_post( self::get_page_id( $key ) );
-			delete_option( 'wccs_' . $key . '_page_id' );
 		}
 	}
 
