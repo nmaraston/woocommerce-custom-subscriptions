@@ -55,7 +55,10 @@
  	 */
 	private static function install_tables() {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+		WCCS_UISM_Dao::prepare_uism_tables();
+
 		dbDelta( WCCS_UISM_Dao::get_uisms_table_schema() );
 		dbDelta( WCCS_UISM_Dao::get_uism_products_table_schema() );
- 	}
+    }
  }

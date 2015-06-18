@@ -440,6 +440,50 @@ class WCCS_UISM_Dao {
 	}
 
 	/**
+	 * Performs preparation tasks that need occur before attempting to
+	 * update/install UISM tables.
+	 *
+	 * @since 1.0
+	 */
+	public static function prepare_uism_tables() {
+		self::prepare_uisms_table();
+		self::prepare_uism_products_table();
+	}
+
+	/**
+	 * Performs preparation tasks that need occur before attempting to
+	 * update/install the uisms SQL table.
+	 *
+	 * @since 1.0
+	 */
+	private static function prepare_uisms_table() {
+	    global $wpdb;
+	    $table_name = self::get_uisms_table_name();
+
+	    // Remove unique keys due to dbDelta's failure to update existing keys
+	    if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name';" ) ) {
+	        $wpdb->query( "ALTER TABLE $table_name DROP INDEX user_product" );
+	        $wpdb->query( "ALTER TABLE $table_name DROP INDEX user_state" );
+	    }
+	}
+
+	/**
+	 * Performs preparation tasks that need occur before attempting to
+	 * update/install the uisms_products SQL table.
+	 *
+	 * @since 1.0
+	 */
+	private static function prepare_uism_products_table() {
+	    global $wpdb;
+	    $table_name = self::get_uism_products_table_name();
+
+	    // Remove unique keys due to dbDelta's failure to update existing keys
+	    if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name';" ) ) {
+	        $wpdb->query( "ALTER TABLE $table_name DROP INDEX uism_slot" );
+	    }
+	}
+
+	/**
 	 * Return the UISM table schema.
 	 *
 	 * The UISM table stores UISMs. Each row in the table represents a user
@@ -463,7 +507,7 @@ class WCCS_UISM_Dao {
 				product_id BIGINT(20) UNSIGNED NOT NULL,
 				state ENUM('ACTIVE_NONBILLING', 'ACTIVE_BILLING', 'INACTIVE'),
 				order_id BIGINT(20) UNSIGNED,
-				PRIMARY KEY (id),
+				PRIMARY KEY  (id),
 				UNIQUE KEY user_product (user_id, product_id),
 				UNIQUE KEY user_state (user_id, state)
 			) $charset_collate;
@@ -494,7 +538,7 @@ class WCCS_UISM_Dao {
 				uism_id BIGINT(20) UNSIGNED NOT NULL,
 				slot_number TINYINT(8) UNSIGNED NOT NULL,
 				product_id BIGINT(20) UNSIGNED NOT NULL,
-				UNIQUE KEY  uism_slot  (uism_id, slot_number)
+				UNIQUE KEY uism_slot (uism_id, slot_number)
 			) $charset_collate;
 			";
 
