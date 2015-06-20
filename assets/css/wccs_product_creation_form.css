@@ -4,10 +4,10 @@
  */
 
 #woocommerce-product-data .woocommerce_options_panel p._custom_subscription_product_count_field {
-	clear: left;
-	padding-right: 0px !important;
+    clear: left;
+    padding-right: 0px !important;
 }
 
 .woocommerce_options_panel p._custom_subscription_product_count_field {
-	margin-top: 0px;
+    margin-top: 0px;
 }

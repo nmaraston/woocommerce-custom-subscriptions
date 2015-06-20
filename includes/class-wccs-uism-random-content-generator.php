@@ -11,34 +11,33 @@
  */
 class WCCS_UISM_Random_Content_Generator implements WCCS_UISM_I_Content_Generator {
 
-	/**
-	 * Generates product contents randomly. Only Simple product types are
-	 * included. Returns false if no other product types exist in the catalog.
-	 *
-	 * @since 1.0
-	 */
-	public function generate_products( $user_id, $product_id ) {
-		$product_posts = get_posts( array( "post_type" => "product", "posts_per_page" => -1 ) );
-		$product_sample_set = array();
-		foreach ( $product_posts as $product_post ) {
-			$wc_product = get_product( $product_post->ID );
-			if ( $wc_product->is_type( array( 'simple' ) ) ) {
-				$product_sample_set[] = $wc_product;
-			}
-		}
+    /**
+     * Generates product contents randomly. Only Simple product types are
+     * included. Returns false if no other product types exist in the catalog.
+     *
+     * @since 1.0
+     */
+    public function generate_products( $user_id, $product_id ) {
+        $product_posts = get_posts( array( "post_type" => "product", "posts_per_page" => -1 ) );
+        $product_sample_set = array();
+        foreach ( $product_posts as $product_post ) {
+            $wc_product = get_product( $product_post->ID );
+            if ( $wc_product->is_type( array( 'simple' ) ) ) {
+                $product_sample_set[] = $wc_product;
+            }
+        }
 
-		if ( empty( $product_sample_set ) ) {
-			return false;
-		}
+        if ( empty( $product_sample_set ) ) {
+            return false;
+        }
 
-		$products = array();
-		$base_product = get_product( $product_id );
-		$sample_count = count( $product_sample_set );
-		for ( $index = 0; $index < $base_product->get_product_count(); $index++ ) {
-			$products[] = $product_sample_set[ rand( 0, $sample_count - 1) ];
-		}
+        $products = array();
+        $base_product = get_product( $product_id );
+        $sample_count = count( $product_sample_set );
+        for ( $index = 0; $index < $base_product->get_product_count(); $index++ ) {
+            $products[] = $product_sample_set[ rand( 0, $sample_count - 1) ];
+        }
 
-		return $products;
-	}
-
+        return $products;
+    }
 }

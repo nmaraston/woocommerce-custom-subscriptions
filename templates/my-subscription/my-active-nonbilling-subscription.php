@@ -17,8 +17,8 @@ $uism = WCCS_UISM_Manager::get_active_uism( get_current_user_id() );
 ?>
 
 <div class="subscription-status-message">
-	<p>Your subscription status is <span class="custom-subscription-state-inactive">INACTIVE</span>.</p>
-	<p><a href="<?php echo wc_get_page_permalink('checkout'); ?>">Checkout</a> now to activate.</p>
+    <p>Your subscription status is <span class="custom-subscription-state-inactive">INACTIVE</span>.</p>
+    <p><a href="<?php echo wc_get_page_permalink('checkout'); ?>">Checkout</a> now to activate.</p>
 </div>
 
 <hr/>
@@ -30,9 +30,9 @@ $uism = WCCS_UISM_Manager::get_active_uism( get_current_user_id() );
 <hr/>
 
 <div class="my-subscription-checkout-footer">
-	<a class="my-subscription-checkout-btn" href="<?php echo wc_get_page_permalink('checkout'); ?>">
-		<input type="submit" value="Checkout" />
-	</a>
+    <a class="my-subscription-checkout-btn" href="<?php echo wc_get_page_permalink('checkout'); ?>">
+        <input type="submit" value="Checkout" />
+    </a>
 
-	<p class="my-subscription-start-msg">Start your subscription now!</p>
+    <p class="my-subscription-start-msg">Start your subscription now!</p>
 </div>
