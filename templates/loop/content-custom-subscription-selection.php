@@ -42,8 +42,7 @@ $action_msg = ( $uism ) ? 'Upgrade!' : 'Sign Up!';
             </p>
         </li>
         <a href="<?php echo $action_url; ?>">
-	        <?php echo $action_msg; ?>
+            <?php echo $action_msg; ?>
         </a>
     </ul>
 </div>
-

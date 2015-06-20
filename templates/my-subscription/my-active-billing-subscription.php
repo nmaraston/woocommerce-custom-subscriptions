@@ -18,7 +18,7 @@ $base_subscription_product = $uism->get_base_product();
 ?>
 
 <div class="subscription-status-message">
-	<p>Your subscription plan is <span class="custom-subscription-state-active">ACTIVE</span>.</p>
+    <p>Your subscription plan is <span class="custom-subscription-state-active">ACTIVE</span>.</p>
 </div>
 
 <hr/>
@@ -32,12 +32,12 @@ $base_subscription_product = $uism->get_base_product();
 <hr/>
 
 <div class="my-subscription-checkout-footer">
-	<a href="">
-		<input type="submit" value="Upgrade" />
-	</a>
-	<p>You can cancel at any time. 
+    <a href="">
+        <input type="submit" value="Upgrade" />
+    </a>
+    <p>You can cancel at any time.
         <a href="<?php echo WC_Subscriptions_Manager::get_users_change_status_link( $uism->get_subscription_key(), 'cancelled' ); ?>" class="custom-subscription-cancel-message">
             Cancel my subscription
         </a>
-    </p>	
+    </p>
 </div>

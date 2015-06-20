@@ -13,18 +13,18 @@
 
 <li>
 
-	<?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
+    <?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
 
-	<a href="<?php the_permalink(); ?>">
+    <a href="<?php the_permalink(); ?>">
 
-		<?php woocommerce_template_loop_product_thumbnail(); ?>
+        <?php woocommerce_template_loop_product_thumbnail(); ?>
 
-		<h3 id="custom-subscription-product-title"><?php the_title(); ?></h3>
+        <h3 id="custom-subscription-product-title"><?php the_title(); ?></h3>
 
-		<?php woocommerce_template_single_excerpt(); ?>
+        <?php woocommerce_template_single_excerpt(); ?>
 
-	</a>
+    </a>
 
-	<?php wccs_get_template( 'change-product-button.php' ); ?>
+    <?php wccs_get_template( 'change-product-button.php' ); ?>
 
 </li>

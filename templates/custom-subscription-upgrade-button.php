@@ -12,5 +12,5 @@
 ?>
 
 <div class="custom-subscription-upgrade-item-button">
-	<input type="submit" value="Upgrade Subscription" />
+    <input type="submit" value="Upgrade Subscription" />
 </div>

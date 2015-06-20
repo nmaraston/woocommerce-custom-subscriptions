@@ -11,10 +11,10 @@
  */
 interface WCCS_I_Shortcode {
 
-	/**
-	 * Output the content of the shortcode.
-	 *
-	 * @since 1.0
-	 */
-	public static function output( $atts = array() );
+    /**
+     * Output the content of the shortcode.
+     *
+     * @since 1.0
+     */
+    public static function output( $atts = array() );
 }

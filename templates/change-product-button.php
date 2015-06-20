@@ -13,7 +13,7 @@
 
 <div class="custom-subscription-product-change">
     <a href="<?php echo wc_get_page_permalink('shop'); ?>"
-		rel="nofollow" >
+       rel="nofollow" >
         <input type="submit" value="Change Product" />
     </a>
 </div>
