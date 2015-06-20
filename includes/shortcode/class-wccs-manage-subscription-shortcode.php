@@ -27,6 +27,10 @@ class WCCS_Manage_Subscription_Shortcode implements WCCS_I_Shortcode {
         if ( ! $uism ) {
             echo "You have not subscribed to a custom subscription.";
         } else {
+            global $wccs_loop;
+            $wccs_loop['loop'] = 0;
+            $wccs_loop['count'] = $uism->get_products();
+
             woocommerce_product_loop_start();
 
             // To allow for duplicate product display (when user's UISM contains
@@ -45,10 +49,16 @@ class WCCS_Manage_Subscription_Shortcode implements WCCS_I_Shortcode {
                 $posts = new WP_Query( $args );
 
                 if ( $posts->have_posts() ) : ?>
+
                     <?php while ( $posts->have_posts() ) : $posts->the_post(); ?>
-                        <?php wccs_get_template( 'content-custom-subscription-product.php' ); ?>
+
+                        <?php wccs_get_template( 'loop/content-custom-subscription-product.php' ); ?>
+
                     <?php endwhile; ?>
+
                 <?php endif;
+
+                $wccs_loop['loop']++;
             }
 
             woocommerce_product_loop_end();

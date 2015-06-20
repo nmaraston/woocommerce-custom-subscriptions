@@ -9,6 +9,7 @@
  * @since       1.0
  * @author      Nick Maraston
  */
+
 ?>
 
 <li>
@@ -25,6 +26,6 @@
 
     </a>
 
-    <?php wccs_get_template( 'change-product-button.php' ); ?>
+    <?php wccs_get_template( 'loop/update-product.php' ); ?>
 
 </li>

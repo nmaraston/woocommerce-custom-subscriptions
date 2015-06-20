@@ -30,7 +30,7 @@ class WCCS_Template_Loader {
         $allow_override = true;
 
         if (is_page(WCCS_Page_Configuration::get_page_id('mysubscription'))) {
-            $file = 'my-subscription/my-subscription.php';
+            $file = 'pages/my-subscription/my-subscription.php';
 
             $find[] = $file;
 
