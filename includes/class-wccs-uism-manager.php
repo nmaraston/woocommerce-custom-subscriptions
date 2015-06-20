@@ -40,7 +40,7 @@ class WCCS_UISM_Manager {
 
         if ( $uism ) {
             // Our check for an active UISM above should imply that this UISM is
-            // inactive. As above, if it is, abort sign-up. If the UISM is
+            // inactive. As above, if it is not, abort sign-up. If the UISM is
             // INACTIVE, reactivate it and use it's product contents.
             if ( $uism->get_state() === WCCS_UISM_State::$ACTIVE_NONBILLING ||
                  $uism->get_state() === WCCS_UISM_State::$ACTIVE_BILLING ) {
@@ -66,8 +66,42 @@ class WCCS_UISM_Manager {
     }
 
     /**
-     * Upgrade a user's subsction to the Custom Subscription identified by the
-     * given $product_id. (This logic applies to downgrading as well.)
+     * Update the given user's ($user_id) active UISM product identified by
+     * $product_id at the given $product_slot number. The user must have an
+     * active UISM.
+     *
+     * Return true iff the product update was successfully persisted to the DB.
+     *
+     * @param int $user_id
+     * @param int $product_id
+     * @param int $product_slot
+     * @return bool
+     * @since 1.0
+     */
+    public static function uism_update_product( $user_id, $product_id, $product_slot ) {
+        $uism = self::get_active_uism( $user_id );
+
+        if ( ! $uism ) {
+            return false;
+        }
+
+        $wc_product = get_product( $product_id );
+        if ( ! $wc_product->is_type( 'simple' ) ) {
+            return false;
+        }
+
+        if ( $product_slot  < 0 || $product_slot >= $uism->get_product_count() ) {
+            return false;
+        }
+
+        $uism->set_product_at_slot( $wc_product, $product_slot );
+
+        return $uism->save();
+    }
+
+    /**
+     * Upgrade a user's subscription to the Custom Subscription identified by
+     * the given $product_id. (This logic applies to downgrading as well.)
      *
      * @since 1.0
      */
