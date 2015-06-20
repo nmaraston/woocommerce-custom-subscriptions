@@ -4,8 +4,6 @@
  *
  * The Template for displaying a user's "my subscription" management page.
  *
- * Override this template by copying it to yourtheme/woocommerce/archive-product.php
- *
  * @version     1.0
  * @since       1.0
  * @author      Nick Maraston
