@@ -190,6 +190,11 @@ class WCCS_Hook_Configuration {
         $this->wire_hook( self::$FILTER_HOOK_TYPE,
             'woocommerce_is_subscription',
             'WCCS_Product_Custom_Subscription_Helper', 'fh_woocommerce_is_subscription', 10, 2 );
+
+        //Called when WooCommerce Subscriptions declares all settings UI components.
+        $this->wire_hook( self::$FILTER_HOOK_TYPE,
+            'woocommerce_subscription_settings',
+            'WCCS_Setting_Configuration', 'fh_woocommerce_subscription_settings', 10, 1 );
     }
 
     /**

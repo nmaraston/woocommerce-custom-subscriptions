@@ -55,8 +55,7 @@ class WCCS_UISM_Manager {
         $uism->set_state( WCCS_UISM_State::$ACTIVE_NONBILLING );
 
         if ( empty( $uism->get_products() ) ) {
-            $content_generator = self::get_product_content_generator();
-            $products = $content_generator->generate_products( $user_id, $product_id );
+            $products = self::generate_uism_products( $user_id, $product_id);
         }
 
         for ( $index = 0; $index < count( $products ); $index++ ) {
@@ -156,6 +155,27 @@ class WCCS_UISM_Manager {
     }
 
     /**
+     * Generate a UISM's product contents. Return false is product generator
+     * fails.
+     *
+     * @return ( array() | bool )
+     * @since 1.0
+     */
+    private static function generate_uism_products( $user_id, $product_id ) {
+        $product_generator_class = WCCS_Option_Configuration::get_option(
+            WCCS_Setting_Configuration::$PRODUCT_GENERATION_METHOD_OPTION_KEY
+        );
+
+        if ( is_null( $product_generator_class ) ) {
+            // Fall back on random content generation incase the setting is broken.
+            $product_generator_class = 'WCCS_UISM_Random_Content_Generator';
+        }
+
+        $product_generator = self::get_product_content_generator();
+        return $product_generator->generate_products( $user_id, $product_id );
+    }
+
+    /**
      * Get the product content generator to be used when generating new product
      * contents for a UISM.
      *
@@ -163,7 +183,16 @@ class WCCS_UISM_Manager {
      * @since 1.0
      */
     private static function get_product_content_generator() {
-        return new WCCS_UISM_Random_Content_Generator();
+        $product_generator_class = WCCS_Option_Configuration::get_option(
+            WCCS_Setting_Configuration::$PRODUCT_GENERATION_METHOD_OPTION_KEY
+        );
+
+        if ( is_null( $product_generator_class ) ) {
+            // Fall back on random content generation incase the setting is broken.
+            $product_generator_class = 'WCCS_UISM_Random_Content_Generator';
+        }
+
+        return new $product_generator_class;
     }
 
     /**

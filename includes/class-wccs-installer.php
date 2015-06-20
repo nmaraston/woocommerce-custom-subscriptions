@@ -18,11 +18,21 @@
      */
     public static function install() {
         WCCS_Logger()->info( "Attempting plugin installation.", __CLASS__ );
+        self::install_settings();
         self::install_terms();
         self::install_tables();
         self::install_pages();
         WCCS_Logger()->info( "Successful plugin installation.", __CLASS__ );
     }
+
+    /**
+     * Install plugin settings.
+     *
+     * @since 1.0
+     */
+     private static function install_settings() {
+         WCCS_Setting_Configuration::set_default_settings();
+     }
 
     /**
      * Create all necessary Wordpress Terms for the plugin.
