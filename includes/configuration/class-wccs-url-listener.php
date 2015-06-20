@@ -15,7 +15,7 @@ class WCCS_URL_Listener {
      *            for.
      */
     private static $wccs_url_param_route_map = array(
-        'POST' => array(
+        'GET' => array(
             array(
                 'query_pattern' => '/updateproduct=(\d+)-(\d+)/',
                 'arg_count'     => '2',
