@@ -17,13 +17,13 @@ class WCCS_Page_Configuration {
 	 */
 	private static $page_config_map = array(
 		'mysubscription' => array(
-			'name'  => 'my-subscription',
-			'title' => 'My Subscription',
+			'name'    => 'my-subscription',
+			'title'   => 'My Subscription',
 			'content' => ''
 		),
 		'subscriptionselection' => array(
-			'name' => 'subscription-selection',
-			'title' => 'Subscription Selection',
+			'name'    => 'subscription-selection',
+			'title'   => 'Subscription Selection',
 			'content' => ''
 		)
 	);
