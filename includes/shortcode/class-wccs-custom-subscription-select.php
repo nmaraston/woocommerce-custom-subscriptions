@@ -19,35 +19,37 @@ class WCCS_Custom_Subscription_Select implements WCCS_I_Shortcode {
      * @since 1.0
      */
     public static function output( $atts = array() ) {
-        if ( empty( $atts ) ) {
-            return '';
-        }
+		if ( !isset( $atts['id'] ) ) {
+			return '';
+		}
 
-        $ids = explode( ',', $atts['ids'] );
-        $ids = array_map( 'trim', $ids );
+		$args = array(
+			"post_type"      => "product",
+			"posts_per_page" => 1,
+			"post_status"    => "publish",
+			"p"              => $atts['id']
+		);
 
-        $args = array(
-            "post_type"      => "product",
-            "posts_per_page" => count( $ids ),
-            "post_status"    => "publish",
-            "post__in"       => $ids
-        );
+		ob_start();
 
-        ob_start();
+		$posts = new WP_Query( $args );
 
-        $products = new WP_Query( $args );
+		if ( $posts->have_posts() ) : ?>
 
-        woocommerce_product_loop_start();
+			<?php woocommerce_product_loop_start(); ?>
 
-        if ( $products->have_posts() ) : ?>
-            <?php while ( $products->have_posts() ) : $products->the_post(); ?>
-                <?php wccs_get_template( 'loop/content-custom-subscription-selection.php' ); ?>
-            <?php endwhile; ?>
-        <?php endif;
+				<?php while ( $posts->have_posts() ) : $posts->the_post(); ?>
 
-        woocommerce_product_loop_end();
-        wp_reset_postdata();
+					<?php wccs_get_template( 'loop/content-custom-subscription-selection.php' ); ?>
 
-        return "<div class='custom-subscription-select'>" . ob_get_clean() . "</div>";
-    }
+				<?php endwhile; ?>
+
+			<?php woocommerce_product_loop_end(); ?>
+
+		<?php endif;
+
+		wp_reset_postdata();
+
+		return ob_get_clean();
+	}
 }
