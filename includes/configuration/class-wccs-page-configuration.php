@@ -37,7 +37,7 @@ class WCCS_Page_Configuration {
         foreach ( self::$page_config_map as $key => $page_meta ) {
             wc_create_page(
                 esc_sql( $page_meta['name'] ),
-                'wccs_' . $key . '_page_id',
+                WCCS_Option_Configuration::get_option_name( $key . '_page_id' ),
                 $page_meta['title'],
                 $page_meta['content']
             );
@@ -51,6 +51,6 @@ class WCCS_Page_Configuration {
      * @since 1.0
      */
     public static function get_page_id( $page_name ) {
-        return get_option( 'wccs_' . $page_name . '_page_id' );
+        return WCCS_Option_Configuration::get_option( $page_name . '_page_id' );
     }
 }
