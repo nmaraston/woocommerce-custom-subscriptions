@@ -14,11 +14,8 @@
 <?php
     global $wccs_loop;
 
-    // Build Custom Subscription Product sign up URL
-    $my_subscription_page_link = get_page_link( WCCS_Page_Configuration::get_page_id( 'mysubscription' ) );
-    $default_prouduct_id = WCCS_Option_Configuration::get_option( WCCS_Setting_Configuration::$DEFAULT_PRODUCT_ID_OPTION_KEY );
-    $update_product_url = add_query_arg( 'updateproduct', $default_prouduct_id . '-' . $wccs_loop['loop'], $my_subscription_page_link );
-    $update_product_url = esc_url( $update_product_url );
+    $default_product_id = WCCS_Option_Configuration::get_option(
+        WCCS_Setting_Configuration::$DEFAULT_PRODUCT_ID_OPTION_KEY );
 ?>
 
 <div class="custom-subscription-product-change">
@@ -31,8 +28,12 @@
 <br/>
 
 <div class="custom-subscription-product-change">
-    <a href="<?php echo $update_product_url; ?>"
-       rel="nofollow" >
+    <a
+       class="wccs_update_product"
+       rel="nofollow"
+       data-product_id="<?php echo $default_product_id; ?>"
+       data-slot_number="<?php echo $wccs_loop['loop']; ?>"
+       >
         <input type="submit" value="Set Default" />
     </a>
 </div>
