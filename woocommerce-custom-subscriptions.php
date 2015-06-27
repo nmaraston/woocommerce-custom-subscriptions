@@ -176,6 +176,7 @@ final class WC_Custom_Subscriptions {
         include_once( 'includes/configuration/class-wccs-asset-loader.php' );
         include_once( 'includes/configuration/class-wccs-template-loader.php' );
         include_once( 'includes/configuration/class-wccs-url-listener.php' );
+        include_once( 'includes/configuration/class-wccs-ajax-event-manager.php' );
         include_once( 'includes/shortcode/class-wccs-shortcode-config.php' );
         include_once( 'includes/shortcode/class-wccs-i-shortcode.php' );
         include_once( 'includes/shortcode/class-wccs-manage-subscription-shortcode.php' );
@@ -209,6 +210,9 @@ final class WC_Custom_Subscriptions {
 
         // Wire all filters for the plugin
         WCCS_Hook_Configuration()->wire_filter_hooks();
+
+        // Wire all ajax actions handlers
+        WCCS_AJAX_Event_Manager::init_handlers();
     }
 
     /**

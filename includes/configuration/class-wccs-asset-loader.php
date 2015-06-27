@@ -44,13 +44,61 @@ class WCCS_Asset_Loader {
      * @since 1.0
      */
     public static function enqueue_wccs_product_creation_script() {
-        $script = self::$SCRIPTS_DIR . '/wccs_product_creation_form.js';
+        $script = self::$SCRIPTS_DIR . '/admin/wccs_product_creation_form.js';
         $script_handle = 'wccs_product_creation_form_script';
-        $script_url = plugin_dir_url( WC_Custom_Subscriptions::$plugin_file ) . $script;
         $script_dependencies = array( 'woocommerce_subscriptions_admin' );
-        $script_version = filemtime( plugin_dir_path( WC_Custom_Subscriptions::$plugin_file ) . $script );
 
-        wp_enqueue_script( $script_handle, $script_url, $script_dependencies, $script_version);
+        self::enqueue_wccs_script( $script, $script_handle, $script_dependencies, null );
+    }
+
+    /**
+     * Enqueue the 'wccs-update-product.js' script. The given $redirect URL
+     * indicates which link the string redirects to post product update.
+     *
+     * @param string $redirect url
+     * @since 1.0
+     */
+    public static function enqueue_wccs_change_product_script( $redirect_url ) {
+        $script = self::$SCRIPTS_DIR . '/frontend/wccs-update-product.js';
+        $script_handle = 'wccs_update_product_script';
+        $script_dependencies = array( 'jquery' );
+
+        $params = array(
+            'name' => 'wccs_update_product_params',
+            'data' => array(
+                'ajax_url'     => admin_url( 'admin-ajax.php' ),
+                'redirect_url' => $redirect_url
+            )
+        );
+
+        self::enqueue_wccs_script( $script, $script_handle, $script_dependencies, $params );
+    }
+
+    /**
+     * Enqueue the given script. $script_path is the relative path (relative to
+     * plugin root) of the script. $handle is the script handle to be used in
+     * WordPress.
+     *
+     * @param string $path
+     * @param string $handle
+     * @param array( string ) $dependencies
+     * @param array(
+     *            name: string,
+     *            data: array(
+     *                key: value
+     *            )
+     *        )
+     * @since 1.0
+     */
+    private static function enqueue_wccs_script( $script_path, $handle, $dependencies, $params ) {
+        $url = plugin_dir_url( WC_Custom_Subscriptions::$plugin_file ) . $script_path;
+        $version = filemtime( plugin_dir_path( WC_Custom_Subscriptions::$plugin_file ) . $script_path );
+
+        wp_enqueue_script( $handle, $url, $dependencies, $version );
+
+        if ( ! is_null( $params ) ) {
+            wp_localize_script( $handle, $params['name'], $params['data']);
+        }
     }
 
     /**

@@ -53,4 +53,14 @@ class WCCS_Page_Configuration {
     public static function get_page_id( $page_name ) {
         return WCCS_Option_Configuration::get_option( $page_name . '_page_id' );
     }
+
+    /**
+     * Get a page URL for one of the plugin provided pages.
+     *
+     * @param string $page_name
+     * @since 1.0
+     */
+    public static function get_page_link( $page_name ) {
+        return get_page_link( self::get_page_id( $page_name ) );
+    }
 }
