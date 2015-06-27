@@ -37,7 +37,12 @@ class WCCS_Template_Loader {
             // Do not allow template overriding for the top level my-subscription template file.
             $allow_override = false;
 
+            // Load assets
             WCCS_Asset_Loader::enqueue_wccs_my_subscription_styles();
+
+            WCCS_Asset_Loader::enqueue_wccs_change_product_script(
+                WCCS_Page_Configuration::get_page_link( 'mysubscription' ) );
+
         } elseif (is_page(WCCS_Page_Configuration::get_page_id('subscriptionselection'))) {
             $file = "pages/subscription-selection.php";
 
