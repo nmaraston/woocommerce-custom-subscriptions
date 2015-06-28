@@ -29,7 +29,7 @@ class WCCS_Template_Loader {
         $file = "";
         $allow_override = true;
 
-        if (is_page(WCCS_Page_Configuration::get_page_id('mysubscription'))) {
+        if ( is_page( WCCS_Page_Configuration::get_page_id('mysubscription') ) ) {
             $file = 'pages/my-subscription/my-subscription.php';
 
             $find[] = $file;
@@ -45,7 +45,7 @@ class WCCS_Template_Loader {
             WCCS_Asset_Loader::enqueue_wccs_update_product_script(
                 WCCS_Page_Configuration::get_page_link( 'mysubscription' ) );
 
-        } elseif (is_page(WCCS_Page_Configuration::get_page_id('subscriptionselection'))) {
+        } elseif ( is_page( WCCS_Page_Configuration::get_page_id('subscriptionselection') ) ) {
             $file = "pages/subscription-selection.php";
 
             $find[] = $file;
