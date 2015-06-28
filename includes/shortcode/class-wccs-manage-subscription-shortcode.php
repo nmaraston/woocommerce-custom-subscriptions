@@ -61,14 +61,12 @@ class WCCS_Manage_Subscription_Shortcode implements WCCS_I_Shortcode {
                 $wccs_loop['loop']++;
             }
 
+            wccs_get_template( 'custom-subscription-upgrade-button.php' );
+
             woocommerce_product_loop_end();
             wp_reset_postdata();
-
-            wccs_get_template( 'custom-subscription-upgrade-button.php' );
         }
 
-        WCCS_Asset_Loader::enqueue_wccs_manage_subscription_styles();
-
-        return "<div class='woocommerce wccs-manage-subscription'>" . ob_get_clean() . "</div>";
+        return "<div class='wccs-manage-subscription'>" . ob_get_clean() . "</div>";
     }
 }
