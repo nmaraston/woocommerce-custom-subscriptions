@@ -33,9 +33,9 @@ class WCCS_Template_Loader {
             $file = 'pages/my-subscription/my-subscription.php';
 
             $find[] = $file;
+            $find[] = WCCS()->override_template_path() . $file;
 
-            // Do not allow template overriding for the top level my-subscription template file.
-            $allow_override = false;
+            $allow_override = true;
 
             // Load product update script. Redirect to My Subscription page
             // after product update click
@@ -77,10 +77,10 @@ class WCCS_Template_Loader {
             $allow_override = true;
         }
 
-        if ($file) {
-            if ($allow_override) {
-                $template = locate_template(array_unique($find));
-                if (!$template) {
+        if ( $file ) {
+            if ( $allow_override ) {
+                $template = locate_template( array_unique( $find ) );
+                if ( ! $template ) {
                     $template = WCCS()->default_template_path() . $file;
                 }
             } else {
