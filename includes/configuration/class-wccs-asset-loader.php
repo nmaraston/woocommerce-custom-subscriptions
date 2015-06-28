@@ -58,13 +58,36 @@ class WCCS_Asset_Loader {
      * @param string $redirect url
      * @since 1.0
      */
-    public static function enqueue_wccs_change_product_script( $redirect_url ) {
+    public static function enqueue_wccs_update_product_script( $redirect_url ) {
         $script = self::$SCRIPTS_DIR . '/frontend/wccs-update-product.js';
         $script_handle = 'wccs_update_product_script';
         $script_dependencies = array( 'jquery' );
 
         $params = array(
             'name' => 'wccs_update_product_params',
+            'data' => array(
+                'ajax_url'     => admin_url( 'admin-ajax.php' ),
+                'redirect_url' => $redirect_url
+            )
+        );
+
+        self::enqueue_wccs_script( $script, $script_handle, $script_dependencies, $params );
+    }
+
+    /**
+     * Enqueue the 'wccs-soft-upgrade.js' script. The given $redirect URL
+     * indicates which link the string redirects to post product update.
+     *
+     * @param $redirect_url
+     * @since 1.0
+     */
+    public static function enqueue_wccs_soft_upgrade_script( $redirect_url ) {
+        $script = self::$SCRIPTS_DIR . '/frontend/wccs-soft-upgrade.js';
+        $script_handle = 'wccs_soft_upgrade_script';
+        $script_dependencies = array( 'jquery' );
+
+        $params = array(
+            'name' => 'wccs_soft_upgrade_params',
             'data' => array(
                 'ajax_url'     => admin_url( 'admin-ajax.php' ),
                 'redirect_url' => $redirect_url

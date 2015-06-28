@@ -37,10 +37,12 @@ class WCCS_Template_Loader {
             // Do not allow template overriding for the top level my-subscription template file.
             $allow_override = false;
 
-            // Load assets
+            // Load styles
             WCCS_Asset_Loader::enqueue_wccs_my_subscription_styles();
 
-            WCCS_Asset_Loader::enqueue_wccs_change_product_script(
+            // Load product update script. Redirect to My Subscription page
+            // after soft upgrade click
+            WCCS_Asset_Loader::enqueue_wccs_update_product_script(
                 WCCS_Page_Configuration::get_page_link( 'mysubscription' ) );
 
         } elseif (is_page(WCCS_Page_Configuration::get_page_id('subscriptionselection'))) {
@@ -50,6 +52,11 @@ class WCCS_Template_Loader {
             $find[] = WCCS()->override_template_path() . $file;
 
             $allow_override = true;
+
+            // Load upgrade script. Redirect to My Subscription page after soft
+            // upgrade click
+            WCCS_Asset_Loader::enqueue_wccs_soft_upgrade_script(
+                WCCS_Page_Configuration::get_page_link( 'mysubscription' ) );
         }
 
         if ($file) {
