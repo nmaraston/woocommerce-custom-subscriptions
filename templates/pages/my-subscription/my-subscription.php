@@ -9,6 +9,12 @@
  * @author      Nick Maraston
  */
 
+$uism = WCCS_UISM_Manager::get_active_uism( get_current_user_id() );
+
+if ( ! $uism ) {
+    wp_redirect( WCCS_Page_Configuration::get_page_link( 'subscriptionselection' ) );
+}
+
 get_header( 'mysubscription' ); ?>
 
     <br/>
@@ -20,8 +26,6 @@ get_header( 'mysubscription' ); ?>
 
     <?php
         do_action( 'woocommerce_before_main_content' );
-
-        $uism = WCCS_UISM_Manager::get_active_uism( get_current_user_id() );
 
         if ( ! $uism ) {
             ?>
