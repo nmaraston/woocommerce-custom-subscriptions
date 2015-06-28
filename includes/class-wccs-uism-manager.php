@@ -56,10 +56,10 @@ class WCCS_UISM_Manager {
 
         if ( empty( $uism->get_products() ) ) {
             $products = self::generate_uism_products( $user_id, $product_id);
-        }
 
-        for ( $index = 0; $index < count( $products ); $index++ ) {
-            $uism->set_product_at_slot( $products[$index], $index );
+            for ( $index = 0; $index < count( $products ); $index++ ) {
+                $uism->set_product_at_slot( $products[$index], $index );
+            }
         }
 
         return $uism->save();
@@ -112,7 +112,13 @@ class WCCS_UISM_Manager {
 
         $old_uism = self::get_active_uism( $user_id );
 
-        if ( !$old_uism ) {
+        if ( ! $old_uism ) {
+            // User does not have old UISM. Nothing to upgrade.
+            return false;
+        }
+
+        if ( $old_uism->get_base_product()->id === $product_id ) {
+            // User's UISM is already based on given $product_id
             return false;
         }
 
@@ -121,15 +127,13 @@ class WCCS_UISM_Manager {
         $old_uism->save();
 
         // Sign up new UISM
-        if ( !self::uism_sign_up( $user_id, $product_id ) ) {
+        if ( ! self::uism_sign_up( $user_id, $product_id ) ) {
             return false;
         }
         $new_uism = self::get_active_uism( $user_id );
 
         // Prefix the new UISM's product list with the initial UISM products
         $old_products = $old_uism->get_products();
-        $new_products = $new_uism->get_products();
-
         for ( $index = 0; $index < count( $old_products ); $index++ ) {
             $new_uism->set_product_at_slot( $old_products[$index], $index);
         }
@@ -189,7 +193,7 @@ class WCCS_UISM_Manager {
     }
 
     /**
-     * Generate a UISM's product contents. Return false is product generator
+     * Generate a UISM's product contents. Return false if product generator
      * fails.
      *
      * @return ( array() | bool )
@@ -201,32 +205,12 @@ class WCCS_UISM_Manager {
         );
 
         if ( is_null( $product_generator_class ) ) {
-            // Fall back on random content generation incase the setting is broken.
+            // Fall back on random content generation
             $product_generator_class = 'WCCS_UISM_Random_Content_Generator';
         }
 
-        $product_generator = self::get_product_content_generator();
+        $product_generator = new $product_generator_class;
         return $product_generator->generate_products( $user_id, $product_id );
-    }
-
-    /**
-     * Get the product content generator to be used when generating new product
-     * contents for a UISM.
-     *
-     * @return WCCS_UISM_I_Content_Generator
-     * @since 1.0
-     */
-    private static function get_product_content_generator() {
-        $product_generator_class = WCCS_Option_Configuration::get_option(
-            WCCS_Setting_Configuration::$PRODUCT_GENERATION_METHOD_OPTION_KEY
-        );
-
-        if ( is_null( $product_generator_class ) ) {
-            // Fall back on random content generation incase the setting is broken.
-            $product_generator_class = 'WCCS_UISM_Random_Content_Generator';
-        }
-
-        return new $product_generator_class;
     }
 
     /**
