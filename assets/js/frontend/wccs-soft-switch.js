@@ -25,8 +25,19 @@ jQuery( function( $ ) {
             data[key] = value;
         });
 
+        var product_id = data['product_id'];
+
         $.post( wccs_soft_switch_params.ajax_url, data, function( response ) {
-            window.location = wccs_soft_switch_params.redirect_url;
+
+            var url = wccs_soft_switch_params.redirect_url;
+
+            // Add 'add-to-cart' query param to redirect URL to trigger cart contents changes
+            var sep = (url.indexOf('?') > -1) ? '&' : '?';
+            var param_key = 'add-to-cart';
+            var param_value = product_id;
+            url += sep + param_key + '=' +  param_value;
+
+            window.location = url;
         });
 
         return true;
