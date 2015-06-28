@@ -134,7 +134,7 @@ class WCCS_UISM_Manager {
 
         // Prefix the new UISM's product list with the initial UISM products
         $old_products = $old_uism->get_products();
-        for ( $index = 0; $index < count( $old_products ); $index++ ) {
+        for ( $index = 0; $index < min( $old_uism->get_product_count(), $new_uism->get_product_count() ); $index++ ) {
             $new_uism->set_product_at_slot( $old_products[$index], $index);
         }
 
