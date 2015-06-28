@@ -316,23 +316,16 @@ class WCCS_UISM_Dao {
 
     /**
      * Get a UISM with a given $selectors array map. The $selectors correspond
-     * to UISM attributes and it's key set should define a key in the wccs_uism
-     * table as to uniquely specify a UISM.
+     * to UISM attributes and and define a conjunctive WHERE clause in SQL.
      *
-     * See method is_uism_key() for what is considered a valid key.
-     *
-     * Return a WCCS_UISM_Dao object or false if the selector key set does not
-     * define a valid key.
+     * Return a WCCS_UISM_Dao object or false if no UISM is found to be
+     * specified by the given $selectors array.
      *
      * @param array $selectors
      * @return mix ( WCCS_UISM_Dao | bool )
      * @since 1.0
      */
     public static function get_uism( $selectors ) {
-        if ( ! self::is_uism_key( array_keys( $selectors ) ) ) {
-            return false;
-        }
-
         global $wpdb;
 
         $uism_row = $wpdb->get_row( self::build_get_uism_query( $selectors ), OBJECT );
@@ -362,23 +355,6 @@ class WCCS_UISM_Dao {
         }
 
         return $uism;
-    }
-
-    /**
-     * Returns true iff the given $key is a valid MySQL key for table wccs_uism.
-     * See method get_uisms_table_schema() documentation for valid keys.
-     *
-     * @param array( string ) $key
-     * @return bool
-     * @since 1.0
-     */
-    public static function is_uism_key( $key ) {
-        $has_id = in_array( "id", $key );
-        $has_user_id = in_array( "user_id", $key );
-        $has_product_id = in_array( "product_id", $key );
-        $has_state = in_array( "state", $key );
-
-        return ( $has_id || ( $has_user_id && $has_product_id ) || ( $has_user_id && $has_state) );
     }
 
     /**
@@ -503,7 +479,7 @@ class WCCS_UISM_Dao {
      * The UISM table stores UISMs. Each row in the table represents a user
      * instantiated custom suscription.
      *
-     * Table keys: (id), (user_id, product_id), (user_id, state)
+     * Table keys: (id), (user_id, product_id)
      *
      * @return string
      * @since 1.0
@@ -523,7 +499,6 @@ class WCCS_UISM_Dao {
                 order_id BIGINT(20) UNSIGNED,
                 PRIMARY KEY  (id),
                 UNIQUE KEY user_product (user_id, product_id),
-                UNIQUE KEY user_state (user_id, state)
             ) $charset_collate;
             ";
 

@@ -12,5 +12,8 @@
 ?>
 
 <div class="custom-subscription-upgrade-item-button">
-    <input type="submit" value="Upgrade Subscription" />
+    <a href="<?php echo get_page_link( WCCS_Page_Configuration::get_page_id( 'subscriptionselection' ) ); ?>"
+       rel="nofollow" >
+        <input type="submit" value="Upgrade Subscription" />
+    </a>
 </div>

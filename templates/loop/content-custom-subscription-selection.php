@@ -11,40 +11,49 @@
  * @since       1.0
  * @author      Nick Maraston
  */
-?>
 
-<?php
-    $uism = WCCS_UISM_Manager::get_active_uism( get_current_user_id() );
+$uism = WCCS_UISM_Manager::get_active_uism( get_current_user_id() );
 
-    $wc_product = wc_get_product( get_the_ID() );
+$wc_product = wc_get_product( get_the_ID() );
 
-    $product_title = get_the_title();
-    $product_price_html = $wc_product->get_price_html();
+if ( ! WCCS_Product_Custom_Subscription_Helper::is_custom_subscription( $wc_product->id ) ) {
+    return;
+}
 
-    // Build Custom Subscription Product sign up URL
-    $my_subscription_page_link = get_page_link( WCCS_Page_Configuration::get_page_id( 'mysubscription' ) );
-    $sign_up_url = add_query_arg( 'add-to-cart', $wc_product->id, $my_subscription_page_link );
-    $sign_up_url = esc_url( $sign_up_url );
-
-    // Build Custom Subscription Product upgrade URL
-    $upgrade_url = get_page_link( WCCS_Page_Configuration::get_page_id( 'mysubscription' ) );
-
-    $action_url = ( $uism ) ? $upgrade_url : $sign_up_url;
-    $action_msg = ( $uism ) ? 'Upgrade!' : 'Sign Up!';
 ?>
 
 <div>
     <ul>
         <li>
-            <h3><?php echo $product_title; ?></h3>
+            <h3><?php echo get_the_title(); ?></h3>
         </li>
         <li>
             <p>
-                <?php echo $product_price_html; ?>
+                <?php echo $wc_product->get_price_html(); ?>
             </p>
         </li>
-        <a href="<?php echo $action_url; ?>">
-            <?php echo $action_msg; ?>
+
+        <a
+        <?php if ( $uism ) { ?>
+
+            class="wccs_soft_switch"
+            rel="nofollow"
+            data-product_id="<?php echo $wc_product->id; ?>"
+
+        <?php } else { ?>
+
+            <?php
+                $sign_up_url = get_page_link( WCCS_Page_Configuration::get_page_id( 'mysubscription' ) );
+                $sign_up_url = add_query_arg( 'add-to-cart', $wc_product->id, $sign_up_url );
+                $sign_up_url = esc_url( $sign_up_url );
+            ?>
+
+            href="<?php echo $sign_up_url; ?>"
+
+        <?php } ?>
+
+            >
+            <?php echo ( ( $uism ) ? 'Upgrade!' : 'Sign Up!' ); ?>
         </a>
     </ul>
 </div>

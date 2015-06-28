@@ -95,12 +95,6 @@ class WCCS_Hook_Configuration {
          * Init Wordpress core action hooks.
          *******************************************************/
 
-        // Called via Wordpress and executed at the end of WordPress's built-in
-        // request parsing method.
-        $this->wire_hook( self::$ACTION_HOOK_TYPE,
-            'parse_request',
-            'WCCS_URL_Listener', 'ah_parse_request', 10, 1 );
-
         // Called via Wordpress once any activated plugins have been loaded. Use high priority argument (999) to ensure
         // handler fires after WooCommerceSubscriptions plugin handles action.
         $this->wire_hook( self::$ACTION_HOOK_TYPE,
