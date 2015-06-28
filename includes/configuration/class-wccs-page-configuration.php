@@ -16,14 +16,24 @@ class WCCS_Page_Configuration {
      * with the WCCS plugin.
      */
     private static $page_config_map = array(
-        'mysubscription' => array(
+        'mysubscription'           => array(
             'name'    => 'my-subscription',
             'title'   => 'My Subscription',
             'content' => ''
         ),
-        'subscriptionselection' => array(
+        'subscriptionselection'    => array(
             'name'    => 'subscription-selection',
-            'title'   => 'Subscription Selection',
+            'title'   => 'Subscription Selection - Update Step 1',
+            'content' => ''
+        ),
+        'subscriptionconfirmation' => array(
+            'name'    => 'subscription-confirmation',
+            'title'   => 'Subscription Confirmation - Update Step 2',
+            'content' => ''
+        ),
+        'subscriptionthankyou'     => array(
+            'name'    => 'subscription-thankyou',
+            'title'   => 'Subscription Thank You - Update Step 3',
             'content' => ''
         )
     );
