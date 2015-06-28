@@ -139,34 +139,4 @@ class WCCS_Asset_Loader {
 
         wp_enqueue_style( $style_handle, $style_url, $style_dependencies, $style_version );
     }
-
-    /**
-     *
-     *
-     * @since 1.0
-     */
-    public static function enqueue_wccs_my_subscription_styles() {
-        $style = self::$STYLES_DIR . '/wccs_my_subscription.css';
-        $style_handle = 'wccs_my_subscription_style';
-        $style_url = plugin_dir_url( WC_Custom_Subscriptions::$plugin_file ) . $style;
-        $style_dependencies = array();
-        $style_version = filemtime( plugin_dir_path( WC_Custom_Subscriptions::$plugin_file ) . $style );
-
-        wp_enqueue_style( $style_handle, $style_url, $style_dependencies, $style_version );
-    }
-
-    /**
-     *
-     *
-     * @since 1.0
-     */
-    public static function enqueue_wccs_manage_subscription_styles() {
-        $style = self::$STYLES_DIR . '/wccs_manage_subscription.css';
-        $style_handle = 'wccs_manage_subscription';
-        $style_url = plugin_dir_url( WC_Custom_Subscriptions::$plugin_file ) . $style;
-        $style_dependencies = array();
-        $style_version = filemtime( plugin_dir_path( WC_Custom_Subscriptions::$plugin_file ) . $style );
-
-        wp_enqueue_style( $style_handle, $style_url, $style_dependencies, $style_version );
-    }
 }
