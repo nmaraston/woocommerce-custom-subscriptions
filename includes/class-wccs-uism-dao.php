@@ -453,7 +453,6 @@ class WCCS_UISM_Dao {
         // Remove unique keys due to dbDelta's failure to update existing keys
         if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name';" ) ) {
             $wpdb->query( "ALTER TABLE $table_name DROP INDEX user_product" );
-            $wpdb->query( "ALTER TABLE $table_name DROP INDEX user_state" );
         }
     }
 
