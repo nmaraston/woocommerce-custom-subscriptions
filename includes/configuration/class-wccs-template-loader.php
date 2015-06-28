@@ -41,7 +41,7 @@ class WCCS_Template_Loader {
             WCCS_Asset_Loader::enqueue_wccs_my_subscription_styles();
 
             // Load product update script. Redirect to My Subscription page
-            // after soft upgrade click
+            // after product update click
             WCCS_Asset_Loader::enqueue_wccs_update_product_script(
                 WCCS_Page_Configuration::get_page_link( 'mysubscription' ) );
 
@@ -53,9 +53,9 @@ class WCCS_Template_Loader {
 
             $allow_override = true;
 
-            // Load upgrade script. Redirect to My Subscription page after soft
-            // upgrade click
-            WCCS_Asset_Loader::enqueue_wccs_soft_upgrade_script(
+            // Load UISM soft switch script. Redirect to My Subscription page
+            // after soft switch click
+            WCCS_Asset_Loader::enqueue_wccs_soft_switch_script(
                 WCCS_Page_Configuration::get_page_link( 'mysubscription' ) );
         }
 

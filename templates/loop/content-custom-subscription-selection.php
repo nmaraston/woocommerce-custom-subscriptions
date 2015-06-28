@@ -36,7 +36,7 @@ if ( ! WCCS_Product_Custom_Subscription_Helper::is_custom_subscription( $wc_prod
         <a
         <?php if ( $uism ) { ?>
 
-            class="wccs_soft_upgrade"
+            class="wccs_soft_switch"
             rel="nofollow"
             data-product_id="<?php echo $wc_product->id; ?>"
 

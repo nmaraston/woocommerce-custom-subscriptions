@@ -100,12 +100,12 @@ class WCCS_UISM_Manager {
     }
 
     /**
-     * Upgrade a user's subscription to the Custom Subscription identified by
-     * the given $product_id. (This logic applies to downgrading as well.)
+     * Upgrade/downgrade a user's subscription to the Custom Subscription
+     * identified by the given $product_id.
      *
      * @since 1.0
      */
-    public static function uism_upgrade( $user_id, $product_id ) {
+    public static function uism_switch( $user_id, $product_id ) {
         if ( ! WCCS_Product_Custom_Subscription_Helper::is_custom_subscription( $product_id ) ) {
             return false;
         }
@@ -113,7 +113,7 @@ class WCCS_UISM_Manager {
         $old_uism = self::get_active_uism( $user_id );
 
         if ( ! $old_uism ) {
-            // User does not have old UISM. Nothing to upgrade.
+            // User does not have an active UISM. Nothing to upgrade/downgrade.
             return false;
         }
 

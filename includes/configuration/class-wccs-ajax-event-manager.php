@@ -19,7 +19,7 @@ class WCCS_AJAX_Event_Manager {
      */
     private static $ajax_event_table = array(
         'update_product' => false,
-        'soft_upgrade'   => false
+        'soft_switch'    => false
     );
 
     /**
@@ -72,11 +72,11 @@ class WCCS_AJAX_Event_Manager {
     }
 
     /**
-     * Soft upgrade AJAX event handler. Used to upgrade UISMs inactive UISMs.
+     * Soft switch AJAX event handler. Used to upgrade/downgrade UISMs.
      *
      * @since 1.0
      */
-    public static function soft_upgrade() {
+    public static function soft_switch() {
         ob_start();
 
         $error = false;
@@ -90,7 +90,7 @@ class WCCS_AJAX_Event_Manager {
 
             $user_id = get_current_user_id();
 
-            $error = ( ! WCCS_UISM_Manager::uism_upgrade( $user_id, $product_id ) );
+            $error = ( ! WCCS_UISM_Manager::uism_switch( $user_id, $product_id ) );
         }
 
         $response_data = array(
