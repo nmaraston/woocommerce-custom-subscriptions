@@ -33,27 +33,27 @@ if ( ! WCCS_Product_Custom_Subscription_Helper::is_custom_subscription( $wc_prod
             </p>
         </li>
 
-        <a
         <?php if ( $uism ) { ?>
 
-            class="wccs_soft_switch"
-            rel="nofollow"
-            data-product_id="<?php echo $wc_product->id; ?>"
+            <button type="submit"
+                    class="wccs_soft_switch button"
+                    rel="nofollow"
+                    data-product_id="<?php echo $wc_product->id; ?>">
+                Upgrade!
+            </button>
 
         <?php } else { ?>
 
-            <?php
-                $sign_up_url = get_page_link( WCCS_Page_Configuration::get_page_id( 'mysubscription' ) );
-                $sign_up_url = add_query_arg( 'add-to-cart', $wc_product->id, $sign_up_url );
-                $sign_up_url = esc_url( $sign_up_url );
-            ?>
+            <form class="cart"
+                  action="<?php echo WCCS_Page_Configuration::get_page_link( 'mysubscription' ); ?>"
+                  method="post"
+                  enctype="multipart/form-data">
 
-            href="<?php echo $sign_up_url; ?>"
+                <input type="hidden" name="add-to-cart" value="<?php echo $wc_product->id; ?>">
+                <button type="submit" class="single_add_to_cart_button button alt">Sign Up!</button>
+
+            </form>
 
         <?php } ?>
-
-            >
-            <?php echo ( ( $uism ) ? 'Upgrade!' : 'Sign Up!' ); ?>
-        </a>
     </ul>
 </div>
