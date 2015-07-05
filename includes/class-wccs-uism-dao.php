@@ -497,7 +497,7 @@ class WCCS_UISM_Dao {
                 state ENUM('ACTIVE_NONBILLING', 'ACTIVE_BILLING', 'INACTIVE'),
                 order_id BIGINT(20) UNSIGNED,
                 PRIMARY KEY  (id),
-                UNIQUE KEY user_product (user_id, product_id),
+                UNIQUE KEY user_product (user_id, product_id)
             ) $charset_collate;
             ";
 
