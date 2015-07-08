@@ -27,9 +27,10 @@ class WCCS_Manage_Subscription_Shortcode implements WCCS_I_Shortcode {
         if ( ! $uism ) {
             echo "You have not subscribed to a custom subscription.";
         } else {
-            global $wccs_loop;
+            global $wccs_loop, $change_product_id;
             $wccs_loop['loop'] = 0;
             $wccs_loop['count'] = $uism->get_products();
+            $change_product_id = ( isset($atts['change_product_id']) ) ? $atts['change_product_id'] : false;
 
             woocommerce_product_loop_start();
 
@@ -65,6 +66,7 @@ class WCCS_Manage_Subscription_Shortcode implements WCCS_I_Shortcode {
 
             woocommerce_product_loop_end();
             wp_reset_postdata();
+            unset($change_product_id);
         }
 
         return "<div class='wccs-manage-subscription'>" . ob_get_clean() . "</div>";
