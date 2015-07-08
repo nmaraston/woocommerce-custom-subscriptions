@@ -28,7 +28,9 @@
             </div>
         </div>
 
-        <?php echo do_shortcode("[manage_subscription]"); ?>
+        <?php echo
+            do_shortcode("[manage_subscription change_product_id=" . $product->id . "]");
+        ?>
 
     </div>
 </div>
