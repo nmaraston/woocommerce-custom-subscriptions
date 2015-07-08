@@ -125,6 +125,11 @@ class WCCS_Hook_Configuration {
             'woocommerce_checkout_update_order_meta',
             'WCCS_Product_Custom_Subscription_Helper', 'ah_woocommerce_checkout_update_order_meta', 10, 2 );
 
+        // Called via WooCommerce before displaying product content in a product page
+        $this->wire_hook( self::$ACTION_HOOK_TYPE,
+            'woocommerce_before_single_product',
+            'WCCS_Template_Loader', 'ah_woocommerce_before_single_product', 10, 0 );
+
         // Called via WooCommerce in The Loop after displaying product content.
         $this->wire_hook( self::$ACTION_HOOK_TYPE,
             'woocommerce_after_shop_loop_item_title',

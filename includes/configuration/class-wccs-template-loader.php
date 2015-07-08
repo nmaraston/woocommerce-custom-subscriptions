@@ -90,4 +90,18 @@ class WCCS_Template_Loader {
 
         return $template;
     }
+
+    /**
+     * Inject the Custom Subscription product update box template above the
+     * single product display.
+     *
+     * @since 1.0
+     */
+    public static function ah_woocommerce_before_single_product() {
+        // Load product update script. Redirect to My Subscription page
+        // after product update click
+        WCCS_Asset_Loader::enqueue_wccs_update_product_script(
+            WCCS_Page_Configuration::get_page_link( 'mysubscription' ) );
+        wccs_get_template( 'custom-subscription-update-box.php' );
+    }
 }
