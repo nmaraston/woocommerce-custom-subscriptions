@@ -9,31 +9,61 @@
  * @since       1.0
  * @author      Nick Maraston
  */
-?>
 
-<?php
-    global $wccs_loop;
+    global $wccs_loop, $change_product_id;
 
     $default_product_id = WCCS_Option_Configuration::get_option(
         WCCS_Setting_Configuration::$DEFAULT_PRODUCT_ID_OPTION_KEY );
+
 ?>
 
-<div class="custom-subscription-product-change">
-    <a href="<?php echo wc_get_page_permalink('shop'); ?>"
-       rel="nofollow" >
-        <input type="submit" value="Change Product" />
-    </a>
-</div>
+<?php if ( $change_product_id ) {
 
-<br/>
+    /*
+     * We are given a product id to replace contents with. Display UI to replace
+     * the Custom Subscription content at the current slot with the currently
+     * displayed product.
+     */
+    ?>
 
-<div class="custom-subscription-product-change">
-    <a
-       class="wccs_update_product"
-       rel="nofollow"
-       data-product_id="<?php echo $default_product_id; ?>"
-       data-slot_number="<?php echo $wccs_loop['loop']; ?>"
-       >
-        <input type="submit" value="Set Default" />
-    </a>
-</div>
+    <div>
+        <a
+            class="wccs_update_product"
+            rel="nofollow"
+            data-product_id="<?php echo $change_product_id; ?>"
+            data-slot_number="<?php echo $wccs_loop['loop']; ?>"
+            >
+            <input type="submit" value="Replace" />
+        </a>
+    </div>
+
+<?php } else {
+
+    /*
+     * Display UI for redirecting to the Shop page and setting the Custom
+     * Subscription content at the current slot with the default product.
+     */
+    ?>
+
+    <div>
+        <a href="<?php echo wc_get_page_permalink('shop'); ?>"
+           rel="nofollow" >
+            <input type="submit" value="Change Product" />
+        </a>
+    </div>
+
+    <br/>
+
+    <div>
+        <a
+           class="wccs_update_product"
+           rel="nofollow"
+           data-product_id="<?php echo $default_product_id; ?>"
+           data-slot_number="<?php echo $wccs_loop['loop']; ?>"
+           >
+            <input type="submit" value="Set Default" />
+        </a>
+    </div>
+
+<?php } ?>
+
