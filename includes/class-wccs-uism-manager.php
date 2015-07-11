@@ -54,7 +54,8 @@ class WCCS_UISM_Manager {
         $uism->set_user_id( get_current_user_id() );
         $uism->set_state( WCCS_UISM_State::$ACTIVE_NONBILLING );
 
-        if ( empty( $uism->get_products() ) ) {
+        $curr_products = $uism->get_products();
+        if ( empty( $curr_products ) ) {
             $products = self::generate_uism_products( $user_id, $product_id);
 
             for ( $index = 0; $index < count( $products ); $index++ ) {

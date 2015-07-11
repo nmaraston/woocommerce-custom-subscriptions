@@ -121,7 +121,8 @@ class WCCS_Product_Custom_Subscription_Helper {
      * @since 1.0
      */
     public static function ah_cancelled_subscription( $user_id, $subscription_key ) {
-        $product_id = WC_Subscriptions_Manager::get_subscription( $subscription_key )['product_id'];
+        $wc_subscription = WC_Subscriptions_Manager::get_subscription( $subscription_key );
+        $product_id = $wc_subscription['product_id'];
         WCCS_UISM_Manager::uism_cancel( $user_id, $product_id );
     }
 
